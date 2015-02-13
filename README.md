@@ -9,8 +9,6 @@ Tests
 	Access https://test1.tls-o-matic.com
 		Visa CN
 
-
-
 2.	Wrong certificate - bad CN
 		Obs! No SAN
 

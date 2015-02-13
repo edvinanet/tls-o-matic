@@ -2,10 +2,11 @@ Tests
 =====
 
 
-1.	Install new CA, validate
-	========================
+1.	Describe CA, download CA cert
+	=============================
 
 	Install the CA cert from the TLS-O-MATIC Super CA
+
 	Access https://test1.tls-o-matic.com
 		Visa CN
 

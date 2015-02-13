@@ -1,0 +1,4 @@
+V	160213140116Z		1000	unknown	/O=hej och h\xC3\xA5/CN=www2.tls-o-matic.com
+V	160213140431Z		1001	unknown	/O=Sopgubbarna & Strandbaren Lundeq AB/CN=ignoreme.tls-o-matic.com
+V	160213141111Z		1002	unknown	/O=Barracuda Sopor & Drinkar AB/CN=ignoreme.tls-o-matic.com
+V	160213142453Z		1003	unknown	/O=Barracuda Sopor & Hattar Ekonomisk F\xC3\x96rening/CN=ignoreme.tls-o-matic.com

@@ -1,5 +1,23 @@
 #!/bin/sh
 ERROR=1
+CACERT=ca/cacert.pem
+DOMAIN=tls-o-matic.com
+
+function findkey()
+{
+	KEYFILE=`dirname $CACERT`/`basename $CACERT .pem`.key
+	if ! test -f $KEYFILE
+	then
+		KEYFILE=`dirname $CACERT`/private/`basename $CACERT .pem`.key
+		if ! test -f $KEYFILE;then
+			KEYFILE=`dirname $CACERT`/`basename $CACERT .cert`.key
+			if ! test -f $KEYFILE;then
+				echo "ERROR: Can't find $KEYFILE."
+				exit 1
+			fi
+		fi
+	fi
+}
 
 function help()
 {
@@ -11,6 +29,9 @@ function help()
 	echo "    evil      Certificate signed by evil CA"
 	echo "    expired   Expired default cert"
 	echo "    future    Valid in the future default cert"
+	echo "    intermed  Create intermediate cert. First arg is CA cert to sign with, second is name"
+	echo "    intercert  Create cert signed by intermediate cert"
+	echo "    inter3cert  Create cert signed by intermediate cert 3"
 	exit
 }
 
@@ -27,6 +48,7 @@ if test $1 = nosan; then
 fi
 if test $1 = evil; then
 	echo "Mohahahaha 👿 "
+	OPTION="$OPTION  -name CA_bad"  
 	ERROR=0
 fi
 if test $1 = expired; then
@@ -42,6 +64,56 @@ fi
 if test $1 = cert; then
 	ERROR=0
 fi
+if test $1 = intercert; then
+	# Sign with intermediate cert
+	CACERT=$2
+	COMMONNAME=$3
+	KEYFILE=`dirname $CACERT`/`basename $CACERT`.key
+	findkey
+	OPTION="$OPTION  -keyfile $KEYFILE"
+	ALTNAME=email:info@$DOMAIN
+	echo "*** --- Signing with intermediate CA cert with CERT $CACERT and key $KEYFILE "
+	# AltName is not used, but the req settings require one
+	ERROR=0
+fi
+if test $1 = inter3cert; then
+	# Sign with intermediate cert
+	CACERT=$2
+	COMMONNAME=$3
+	KEYFILE=`dirname $CACERT`/`basename $CACERT .pem`.key
+	findkey
+	OPTION="$OPTION  -keyfile $KEYFILE"
+	ALTNAME=email:info@$DOMAIN
+	echo "*** --- Signing with intermediate CA cert with CERT $CACERT and key $KEYFILE "
+	# AltName is not used, but the req settings require one
+	ERROR=0
+fi
+if test $1 = intermed; then
+	# Create intermediate cert
+	OPTION="$OPTION -extensions intermediate_cert"
+	CACERT=$2
+	COMMONNAME=$3
+	KEYFILE=`dirname $CACERT`/`basename $CACERT .pem`.key
+	if ! test -f $KEYFILE
+	then
+		KEYFILE=`dirname $CACERT`/private/`basename $CACERT .pem`.key
+		if ! test -f $KEYFILE;then
+			KEYFILE=`dirname $CACERT`/`basename $CACERT .cert`.key
+			if ! test -f $KEYFILE;then
+				echo "ERROR: Can't find $KEYFILE."
+				exit 1
+			fi
+		fi
+	fi
+	OPTION="$OPTION  -keyfile $KEYFILE"
+	# To switch CA certs
+	# -certfile file
+	# -keyfile file
+	echo "*** --- Creating intermediate CA cert with CERT $CACERT and key $KEYFILE "
+	# AltName is not used, but the req settings require one
+	ALTNAME=email:info@$DOMAIN
+	ERROR=0
+fi
 if test $ERROR = 1;then
 	echo "ERROR - bad command $1. "
 	help
@@ -49,11 +121,15 @@ if test $ERROR = 1;then
 fi
 if test -z $3;then
 	# Should possible change "www.skrep.com" and add "skrep.com" as alt name.
-	COMMONNAME="$2"
-	ALTNAME="DNS:$2"
+	if test -z $COMMONNAME;then
+		COMMONNAME="$2"
+		ALTNAME="DNS:$2"
+	fi
 else
-	COMMONNAME=$2
-	ALTNAME=DNS:$3
+	if test -z $COMMONNAME;then
+		COMMONNAME=$2
+		ALTNAME=DNS:$3
+	fi
 fi
 #Generate request
 echo "Common Name (CN) $COMMONNAME Alt $ALTNAME"
@@ -71,7 +147,18 @@ openssl req -new -nodes \
 
 #Sign request And create cert
 openssl ca  $OPTION \
+	-cert $CACERT \
 	-config etc/openssl.cnf \
 	-out "ca/certs/$COMMONNAME.cert" \
 	-infiles "ca/request/$COMMONNAME.req"
-cp ca/certs/$COMMONNAME.cert ca/private/$COMMONNAME.key certs
+
+# Move the files to the proper place
+if test -f ca/certs/$COMMONNAME.cert
+then
+	mv ca/certs/$COMMONNAME.cert certs
+	rm ca/request/$COMMONNAME.req
+fi
+if test -f ca/certs/$COMMONNAME.key
+then
+	mv ca/certs/$COMMONNAME.key certs
+fi

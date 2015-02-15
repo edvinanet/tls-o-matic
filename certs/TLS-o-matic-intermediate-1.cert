@@ -1,0 +1,101 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 4120 (0x1018)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: O=D&O TLS-O-MATIC CERTIFICATE AUTHORITY AB, CN=tls-o-matic.com
+        Validity
+            Not Before: Feb 15 16:10:24 2015 GMT
+            Not After : Feb 15 16:10:24 2016 GMT
+        Subject: O=TLS-O-Matic Intermediate CA 1, CN=TLS-o-matic-intermediate-1
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:c3:96:42:85:8a:7c:02:90:13:92:53:fd:4a:5f:
+                    c4:0a:f6:3a:bf:90:1e:a7:cd:3b:49:ab:28:fa:1a:
+                    2d:95:c4:dd:4b:5e:cd:6b:f8:84:7d:72:fb:d4:d6:
+                    85:be:c1:e4:67:d8:b0:f5:9a:d5:7a:8b:6b:8c:79:
+                    c1:4c:86:f4:59:d7:88:e5:64:35:56:c4:23:59:5f:
+                    14:28:7b:45:b0:cb:22:5c:77:e7:8c:0a:99:7b:69:
+                    7f:41:7c:b4:45:c6:fd:1f:27:9d:56:3a:bf:e2:01:
+                    12:05:b1:ac:bb:b0:3d:e5:f5:28:ab:08:0f:d8:4b:
+                    cf:4f:c6:63:3a:55:ee:01:99:b2:6d:68:8f:ad:7b:
+                    81:e5:ef:8b:ed:04:da:5f:22:29:23:30:8c:f0:b4:
+                    e6:d2:02:ec:3d:44:fc:6d:2a:87:aa:75:f4:38:0a:
+                    8b:b9:f3:6f:ab:d6:b3:78:79:19:8d:01:3c:cd:b6:
+                    d9:3e:37:b8:40:3e:0d:ce:8c:38:53:3f:e1:e9:dc:
+                    80:de:f2:12:a9:97:d0:45:6c:06:a6:d4:a9:17:be:
+                    ff:8a:e0:fa:02:be:71:c9:2c:98:7a:86:2a:97:0d:
+                    62:c1:5a:0c:51:72:f9:46:8e:17:d8:ac:43:0d:30:
+                    d4:8b:39:e0:83:a8:9e:4c:77:ee:52:77:ab:5e:86:
+                    f6:df
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:TRUE
+            Netscape Comment: 
+                TLS-O-Matic Intermediate Certificate 🔐  . This is one in a chain that you have to verify 
+            X509v3 Subject Key Identifier: 
+                3C:8D:0C:2C:72:26:28:A0:65:30:77:82:9E:A9:A3:A7:E9:24:F2:B5
+            X509v3 Authority Key Identifier: 
+                keyid:1D:6D:58:5B:49:3A:CC:00:2B:22:20:40:42:56:DD:C7:EB:B2:73:45
+
+            X509v3 Subject Alternative Name: 
+                email:ca@tls-o-matic.com
+            X509v3 Issuer Alternative Name: 
+                <EMPTY>
+
+            Netscape CA Revocation Url: 
+                https://www.tls-o-matic.com/we-never-revoke-ha-ha-ha/ca/
+            Netscape Revocation Url: 
+                https://www.tls-o-matic.com/we-never-revoke-ha-ha-ha/
+            Netscape Renewal Url: 
+                https://www.tls-o-matic.com/renew/
+            Netscape CA Policy Url: 
+                https://www.tls-o-matic.com/policy/
+    Signature Algorithm: sha256WithRSAEncryption
+         c1:64:0e:c9:e0:7e:cb:8e:e0:b4:e5:8b:d9:36:fc:70:05:1f:
+         b7:0e:96:41:1b:fd:fc:93:e5:16:dc:20:ef:17:97:f8:4a:16:
+         c2:b1:3c:d1:8f:c5:b8:59:ea:51:ec:36:1f:26:5d:24:ff:74:
+         fc:41:16:a2:ee:20:2b:f4:ae:46:28:5c:1e:59:2c:b5:ac:ff:
+         80:91:f5:00:50:37:56:f7:58:07:4f:0e:94:e0:7f:1c:b1:29:
+         af:dd:d9:4b:0a:87:5e:fa:20:31:2d:b7:30:90:70:de:de:fb:
+         07:07:14:49:0f:be:13:51:56:4b:37:1b:32:e9:83:20:74:e6:
+         ec:f7:75:a9:08:c4:12:fc:de:1e:14:f9:c0:8a:9f:e1:22:d9:
+         3b:eb:38:58:4d:4b:cb:be:7f:79:e9:3e:5f:19:d6:51:2c:14:
+         18:6c:b6:36:3a:b9:0b:61:e8:06:c7:3b:4e:e9:d8:3c:15:ff:
+         71:3f:74:a8:fe:ba:9f:03:38:3d:ab:9d:f2:b9:92:67:ce:ab:
+         67:fb:f4:29:97:f2:91:92:f1:33:3f:27:38:e1:cc:10:38:cb:
+         da:c4:cf:00:d1:b6:70:41:e6:83:9e:f8:34:f6:69:36:a6:0d:
+         be:9d:fe:a8:d6:87:03:13:40:05:68:e5:89:6e:4b:d2:1c:84:
+         5e:0d:65:89
+-----BEGIN CERTIFICATE-----
+MIIE9zCCA9+gAwIBAgICEBgwDQYJKoZIhvcNAQELBQAwTTExMC8GA1UEChQoRCZP
+IFRMUy1PLU1BVElDIENFUlRJRklDQVRFIEFVVEhPUklUWSBBQjEYMBYGA1UEAxMP
+dGxzLW8tbWF0aWMuY29tMB4XDTE1MDIxNTE2MTAyNFoXDTE2MDIxNTE2MTAyNFow
+TTEmMCQGA1UECgwdVExTLU8tTWF0aWMgSW50ZXJtZWRpYXRlIENBIDExIzAhBgNV
+BAMMGlRMUy1vLW1hdGljLWludGVybWVkaWF0ZS0xMIIBIjANBgkqhkiG9w0BAQEF
+AAOCAQ8AMIIBCgKCAQEAw5ZChYp8ApATklP9Sl/ECvY6v5Aep807Saso+hotlcTd
+S17Na/iEfXL71NaFvsHkZ9iw9ZrVeotrjHnBTIb0WdeI5WQ1VsQjWV8UKHtFsMsi
+XHfnjAqZe2l/QXy0Rcb9HyedVjq/4gESBbGsu7A95fUoqwgP2EvPT8ZjOlXuAZmy
+bWiPrXuB5e+L7QTaXyIpIzCM8LTm0gLsPUT8bSqHqnX0OAqLufNvq9azeHkZjQE8
+zbbZPje4QD4Nzow4Uz/h6dyA3vISqZfQRWwGptSpF77/iuD6Ar5xySyYeoYqlw1i
+wVoMUXL5Ro4X2KxDDTDUizngg6ieTHfuUnerXob23wIDAQABo4IB3zCCAdswDAYD
+VR0TBAUwAwEB/zBrBglghkgBhvhCAQ0EXhZcVExTLU8tTWF0aWMgSW50ZXJtZWRp
+YXRlIENlcnRpZmljYXRlIPCflJAgIC4gVGhpcyBpcyBvbmUgaW4gYSBjaGFpbiB0
+aGF0IHlvdSBoYXZlIHRvIHZlcmlmeSAwHQYDVR0OBBYEFDyNDCxyJiigZTB3gp6p
+o6fpJPK1MB8GA1UdIwQYMBaAFB1tWFtJOswAKyIgQEJW3cfrsnNFMB0GA1UdEQQW
+MBSBEmNhQHRscy1vLW1hdGljLmNvbTAJBgNVHRIEAjAAMEcGCWCGSAGG+EIBBAQ6
+FjhodHRwczovL3d3dy50bHMtby1tYXRpYy5jb20vd2UtbmV2ZXItcmV2b2tlLWhh
+LWhhLWhhL2NhLzBEBglghkgBhvhCAQMENxY1aHR0cHM6Ly93d3cudGxzLW8tbWF0
+aWMuY29tL3dlLW5ldmVyLXJldm9rZS1oYS1oYS1oYS8wMQYJYIZIAYb4QgEHBCQW
+Imh0dHBzOi8vd3d3LnRscy1vLW1hdGljLmNvbS9yZW5ldy8wMgYJYIZIAYb4QgEI
+BCUWI2h0dHBzOi8vd3d3LnRscy1vLW1hdGljLmNvbS9wb2xpY3kvMA0GCSqGSIb3
+DQEBCwUAA4IBAQDBZA7J4H7LjuC05YvZNvxwBR+3DpZBG/38k+UW3CDvF5f4ShbC
+sTzRj8W4WepR7DYfJl0k/3T8QRai7iAr9K5GKFweWSy1rP+AkfUAUDdW91gHTw6U
+4H8csSmv3dlLCode+iAxLbcwkHDe3vsHBxRJD74TUVZLNxsy6YMgdObs93WpCMQS
+/N4eFPnAip/hItk76zhYTUvLvn956T5fGdZRLBQYbLY2OrkLYegGxztO6dg8Ff9x
+P3So/rqfAzg9q53yuZJnzqtn+/Qpl/KRkvEzPyc44cwQOMvaxM8A0bZwQeaDnvg0
+9mk2pg2+nf6o1ocDE0AFaOWJbkvSHIReDWWJ
+-----END CERTIFICATE-----

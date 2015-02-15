@@ -1,4 +1,5 @@
 TLS-O-MATIC.COM
+===============
 
 Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
 Meetup in Stockholm in March 2015.
@@ -68,9 +69,6 @@ Possible future cert tests
 --------------------------
 	- SNI, Server name indication
 	- Cert with wrong usage (E-mail sign or SIP)
-	- MD5 signed cert -done
-	- Cert with intermediary
-	- Cert with many intermediaries
 
 Other TLS test ideas
 --------------------

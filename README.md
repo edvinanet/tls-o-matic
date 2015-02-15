@@ -84,3 +84,9 @@ API tests
 	- Possibly add a json payload in return for javascript/app testing
 	- Possibly add a XML payload in return for app testing
 
+
+Installing
+----------
+You can install this on your own system - check out in /usr/local/tls-o-matic
+To test another domain you can change domain in the Makefile. Not sure
+if this works in all scripts yet.

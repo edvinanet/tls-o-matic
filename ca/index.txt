@@ -2,3 +2,25 @@ V	160213140116Z		1000	unknown	/O=hej och h\xC3\xA5/CN=www2.tls-o-matic.com
 V	160213140431Z		1001	unknown	/O=Sopgubbarna & Strandbaren Lundeq AB/CN=ignoreme.tls-o-matic.com
 V	160213141111Z		1002	unknown	/O=Barracuda Sopor & Drinkar AB/CN=ignoreme.tls-o-matic.com
 V	160213142453Z		1003	unknown	/O=Barracuda Sopor & Hattar Ekonomisk F\xC3\x96rening/CN=ignoreme.tls-o-matic.com
+V	160214132436Z		1004	unknown	/O=Manuelas klara bilar AB \xF0\x9F\x9A\x99 /CN=test42.tls-o-matic.com
+V	160214223154Z		1005	unknown	/O=adf/CN=nonsense.tls-o-matic.com
+V	160214223950Z		1006	unknown	/O=Internet Widgits Pty Ltd/CN=nonsense.tls-o-matic.com
+V	160214224946Z		1007	unknown	/O=International Security TLS Inc/CN=nonsense.tls-o-matic.com
+V	160215085418Z		1008	unknown	/O=cURLing Stenberg & Stenberg UPA/CN=test2.tls-o-matic.com
+V	160215091934Z		1009	unknown	/O=Anders & Lotta TLS service AB/CN=test1.tls-o-matic.com
+V	160215092015Z		100A	unknown	/O=Rutger TLS valuation services Inc/CN=test3.tls-o-matic.com
+V	160215092047Z		100B	unknown	/O=Andorra Magical Certificates /CN=test2.tls-o-matic.com
+V	160215092226Z		100C	unknown	/O=Cool TLS Certification Services/CN=test2.tls-o-matic.null
+V	160215092536Z		100D	unknown	/O=All your TLS belongs to us LLC/CN='*.tls-o-matic.com'
+V	160215093333Z		100E	unknown	/O=Johansson TLS hardcore testing AB/CN=*.tls-o-matic.com
+V	631224142829Z		100F	unknown	/O=The Historical Museum Web Site/CN=test6.tls-o-matic.com
+V	250214220101Z		1010	unknown	/O=Marty's and Doc's Environmentally friendly engines inc/CN=test5.tls-o-matic.com
+V	160215131603Z		1011	unknown	/O=Agora Secure TLS Cats AB/CN=*.tls-o-matic.com
+V	160215135037Z		1012	unknown	/O=TLS-O-Matic intermediate Super CA/CN=TLS-section-42
+V	160215144616Z		1013	unknown	/O=The TLS University/CN=test10.tls-o-matic.com
+V	160215161024Z		1018	unknown	/O=TLS-O-Matic Intermediate CA 1/CN=TLS-o-matic-intermediate-1
+V	160215161031Z		1019	unknown	/O=TLS-O-Matic Intermediate CA 2/CN=TLS-o-matic-intermediate-2
+V	160215161040Z		101A	unknown	/O=TLS-O-Matic Intermediate CA 3/CN=TLS-o-matic-intermediate-3
+V	160215172949Z		101B	unknown	/O=Deep Hidden Trusted Services Inc/CN=test11.tls-o-matic.com
+V	160215184038Z		101E	unknown	/O=MD5 was good enough in the 90's/CN=test9.tls-o-matic.com
+V	160215184737Z		101F	unknown	/O=We Challenge You, Inc/CN=test8.tls-o-matic.com

@@ -1,0 +1,83 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 4097 (0x1001)
+    Signature Algorithm: sha1WithRSAEncryption
+        Issuer: O=Your Best Friend Certificates Inc, CN=not-your-friend.co.uk
+        Validity
+            Not Before: Feb 15 13:22:34 2015 GMT
+            Not After : Feb 12 13:22:34 2025 GMT
+        Subject: O=Abdulla The Butcher LLC, CN=test7.tls-o-matic.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:d5:11:81:c9:88:c6:ec:98:d2:17:cc:11:e3:05:
+                    85:bc:35:3b:f7:32:27:65:04:6d:88:5f:e2:47:a7:
+                    29:d7:89:a4:00:63:ed:55:e7:5b:f6:ee:b4:f7:bc:
+                    2f:37:98:9d:0c:92:2b:43:15:c5:2f:94:60:4b:f4:
+                    44:a7:a0:b1:c3:bc:a9:0e:15:6f:be:74:1b:2e:94:
+                    88:d6:52:e0:50:b1:29:25:4d:d8:14:03:89:e3:45:
+                    95:37:99:51:6c:0f:25:63:06:10:2c:8a:0b:4a:91:
+                    ed:be:98:89:ae:8a:d1:03:b9:53:2c:49:58:66:27:
+                    14:e2:1b:fc:ed:02:44:59:fd:8a:e3:1c:0c:52:1e:
+                    aa:a0:8e:5f:94:03:3d:1e:35:15:6b:0a:2d:e0:71:
+                    1d:17:10:e6:4f:15:25:e6:32:9e:0a:78:89:f3:fe:
+                    8b:62:13:85:62:49:bf:85:5e:12:15:df:07:ae:2d:
+                    58:0d:89:15:ab:40:2f:69:cd:b0:d6:02:59:0f:fd:
+                    82:dd:a5:76:91:35:e1:5c:c7:44:e5:36:aa:bc:76:
+                    36:18:ad:c5:f8:8e:7e:4c:fc:37:4c:13:b0:a7:48:
+                    c3:68:df:90:4a:fb:9d:5f:26:24:19:4e:eb:76:08:
+                    4c:7d:fa:50:92:7f:c4:fa:66:c4:c6:b0:47:67:74:
+                    82:fb
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+            Netscape Comment: 
+                TLS-O-Matic Evil No Validation Certificate 👿  
+            X509v3 Subject Key Identifier: 
+                A9:69:58:A7:53:B8:6E:95:2C:4A:A1:1E:CE:A4:A9:9A:94:F8:E1:93
+            X509v3 Authority Key Identifier: 
+                keyid:5A:0B:8D:15:2F:43:2E:B3:93:5A:2D:87:11:28:33:05:62:EA:EB:FA
+
+    Signature Algorithm: sha1WithRSAEncryption
+         26:28:c9:fe:0e:0d:36:e8:ed:8d:57:5a:b7:86:9b:de:21:72:
+         e9:a2:ba:36:52:43:79:6c:94:90:ed:da:a2:09:59:cb:95:30:
+         cf:52:e2:71:8a:5c:7b:c2:30:37:d0:bd:a2:1a:be:5a:84:66:
+         9b:f9:29:d8:64:c6:ee:b9:28:4b:a7:0c:10:dd:95:a1:17:3d:
+         b0:d9:0e:10:77:8b:de:f7:31:82:de:17:0b:7a:1c:ef:46:6d:
+         0c:6e:ff:8a:a4:fc:b2:89:6d:bd:f0:60:27:74:9d:cc:5f:a3:
+         b5:95:e7:0e:cb:cf:70:68:84:af:3f:5b:b8:b3:c1:3c:88:93:
+         35:40:4c:d3:a8:a5:ac:1e:26:0a:6d:db:5e:24:b2:ee:c9:e0:
+         c3:bc:eb:9b:7a:8d:6e:7d:ff:81:6d:5b:24:6c:ed:bb:ea:00:
+         f1:18:7f:63:85:79:06:b8:37:cf:87:cb:6c:bd:d9:72:90:c3:
+         22:b9:8c:1c:f5:a6:89:49:a8:c1:f9:a9:ad:42:8f:12:21:63:
+         5d:8b:ac:8c:33:1e:29:b7:9e:2f:d4:62:33:15:12:c7:c3:17:
+         00:8d:f8:ae:70:cf:d8:50:b7:bc:2a:c2:40:e8:3b:fc:5a:52:
+         59:27:98:71:61:d1:56:0f:1a:da:bf:10:c1:9e:fa:86:fa:91:
+         c8:eb:8c:8b
+-----BEGIN CERTIFICATE-----
+MIIDsDCCApigAwIBAgICEAEwDQYJKoZIhvcNAQEFBQAwTDEqMCgGA1UEChMhWW91
+ciBCZXN0IEZyaWVuZCBDZXJ0aWZpY2F0ZXMgSW5jMR4wHAYDVQQDExVub3QteW91
+ci1mcmllbmQuY28udWswHhcNMTUwMjE1MTMyMjM0WhcNMjUwMjEyMTMyMjM0WjBC
+MSAwHgYDVQQKDBdBYmR1bGxhIFRoZSBCdXRjaGVyIExMQzEeMBwGA1UEAwwVdGVz
+dDcudGxzLW8tbWF0aWMuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEA1RGByYjG7JjSF8wR4wWFvDU79zInZQRtiF/iR6cp14mkAGPtVedb9u6097wv
+N5idDJIrQxXFL5RgS/REp6Cxw7ypDhVvvnQbLpSI1lLgULEpJU3YFAOJ40WVN5lR
+bA8lYwYQLIoLSpHtvpiJrorRA7lTLElYZicU4hv87QJEWf2K4xwMUh6qoI5flAM9
+HjUVawot4HEdFxDmTxUl5jKeCniJ8/6LYhOFYkm/hV4SFd8Hri1YDYkVq0Avac2w
+1gJZD/2C3aV2kTXhXMdE5TaqvHY2GK3F+I5+TPw3TBOwp0jDaN+QSvudXyYkGU7r
+dghMffpQkn/E+mbExrBHZ3SC+wIDAQABo4GlMIGiMAkGA1UdEwQCMAAwEwYDVR0l
+BAwwCgYIKwYBBQUHAwEwQAYJYIZIAYb4QgENBDMWMVRMUy1PLU1hdGljIEV2aWwg
+Tm8gVmFsaWRhdGlvbiBDZXJ0aWZpY2F0ZSDwn5G/ICAwHQYDVR0OBBYEFKlpWKdT
+uG6VLEqhHs6kqZqU+OGTMB8GA1UdIwQYMBaAFFoLjRUvQy6zk1othxEoMwVi6uv6
+MA0GCSqGSIb3DQEBBQUAA4IBAQAmKMn+Dg026O2NV1q3hpveIXLporo2UkN5bJSQ
+7dqiCVnLlTDPUuJxilx7wjA30L2iGr5ahGab+SnYZMbuuShLpwwQ3ZWhFz2w2Q4Q
+d4ve9zGC3hcLehzvRm0Mbv+KpPyyiW298GAndJ3MX6O1lecOy89waISvP1u4s8E8
+iJM1QEzTqKWsHiYKbdteJLLuyeDDvOubeo1uff+BbVskbO276gDxGH9jhXkGuDfP
+h8tsvdlykMMiuYwc9aaJSajB+amtQo8SIWNdi6yMMx4pt54v1GIzFRLHwxcAjfiu
+cM/YULe8KsJA6Dv8WlJZJ5hxYdFWDxravxDBnvqG+pHI64yL
+-----END CERTIFICATE-----

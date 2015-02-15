@@ -87,7 +87,13 @@ UseCanonicalName Off
 
     # Order allow,deny
     # Allow from all
+</Directory>
+<Directory "/usr/local/tls-o-matic/httpd">
+    Options Indexes FollowSymLinks
+    AllowOverride None
 
+    # Order allow,deny
+    # Allow from all
 </Directory>
 
 DirectoryIndex index.html index.html.var

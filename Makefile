@@ -11,6 +11,20 @@ COMPANYNAME:=Default TLS company
 
 export COMPANYNAME
 
+web:
+	make -C httpd/test1
+	make -C httpd/test2
+	make -C httpd/test3
+	make -C httpd/test4
+	make -C httpd/test5
+	make -C httpd/test6
+	make -C httpd/test7
+	make -C httpd/test8
+	make -C httpd/test9
+	make -C httpd/test10
+	make -C httpd/test11
+	@echo "✅  done!"
+
 certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11
 	@echo "✅  done!"
 

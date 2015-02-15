@@ -1,5 +1,18 @@
+TLS-O-MATIC.COM
+
+Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
+Meetup in Stockholm in March 2015.
+
+
+Things to go through before and during tests
+--------------------------------------------
+	- What is CN - Common Name
+	- What about all the other stuff in the cert?
+	- What is SubjectAltName
+	- Selfsigned certificates, CA signed certs - DV, EV
+
 Tests
-=====
+-----
 
 1.	Describe CA, download CA cert
 	- Access https://test1.tls-o-matic.com
@@ -9,34 +22,27 @@ Tests
 	- Access the site again
 
 2.	Wrong certificate - bad CN
-	- https://test1.tls-o-matic.com:402
+	- https://test2.tls-o-matic.com:402
 		Obs! No SAN in the cert, please
 
 3.	Wrong cert - bad SubjAltName
-	- https://test1.tls-o-matic.com:403
+	- https://test3.tls-o-matic.com:403
 
 4.	Wildcard cert
-	- https://test1.tls-o-matic.com:404
-	- https://test1test.tls-o-matic.com:404
+	- https://test4.tls-o-matic.com:404
+	- https://test4test.tls-o-matic.com:404
 
 5.	Cert from future
-	- https://test1.tls-o-matic.com:405
+	- https://test5.tls-o-matic.com:405
 
 6. 	Expired certificate
-	- https://test1.tls-o-matic.com:406
+	- https://test6.tls-o-matic.com:406
 
 7.	Evil unknown CA
-	- https://test1.tls-o-matic.com:407
+	- https://test7.tls-o-matic.com:407
 
 8.	Client cert required
-	- https://test1.tls-o-matic.com:408
-
-Things to go through before and during tests
---------------------------------------------
-	- What is CN - Common Name
-	- What about all the other stuff in the cert?
-	- What is SubjectAltName
-	- Selfsigned certificates, CA signed certs - DV, EV
+	- https://test8.tls-o-matic.com:408
 
 Possible future cert tests
 --------------------------

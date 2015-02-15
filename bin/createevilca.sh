@@ -9,6 +9,6 @@ touch index.txt
 export COMMONNAME=$DOMAIN
 export ALTNAME=DNS:$DOMAIN
 # Create keys
-openssl req -new -x509 -days 365 -extensions v3_ca -nodes \
--keyout private/cakey.pem -out cacert.pem \
--config ../../etc/openssl-badca.cnf
+openssl req -new -x509 -days 1500 -extensions v3_ca -nodes \
+ -keyout private/cakey.pem -out cacert.pem \
+ -config ../../etc/openssl-badca.cnf

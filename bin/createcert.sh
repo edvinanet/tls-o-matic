@@ -3,6 +3,11 @@ ERROR=1
 CACERT=ca/cacert.pem
 DOMAIN=tls-o-matic.com
 
+if test -z "$COMPANYNAME"
+then
+	COMPANYNAME="Unknown Security Customer"
+fi
+
 function findkey()
 {
 	KEYFILE=`dirname $CACERT`/`basename $CACERT .pem`.key
@@ -39,7 +44,9 @@ if test -z $1;then
 	help
 fi
 if test $1 = md5; then
-	OPTION="$OPTION -digest md5"
+	OPTION="$OPTION -md md5"
+	# Use a smaller key length too
+	REQOPTION="$REQOPTION -newkey rsa:512"
 	ERROR=0
 fi
 if test $1 = nosan; then
@@ -132,7 +139,7 @@ else
 	fi
 fi
 #Generate request
-echo "Common Name (CN) $COMMONNAME Alt $ALTNAME"
+echo "Company $COMPANYNAME Common Name (CN) $COMMONNAME Alt $ALTNAME"
 export COMMONNAME ALTNAME
 # -digest sha256|md5|sha1
 #	-extensions section
@@ -140,7 +147,7 @@ export COMMONNAME ALTNAME
 #	- utf8		Fields are default ASCII
 #	- verbose  Extra information
 
-openssl req -new -nodes \
+openssl req -new -nodes $REQOPTION \
 	-out "ca/request/$COMMONNAME.req" \
 	-keyout "ca/private/$COMMONNAME.key" \
 	-config etc/openssl.cnf
@@ -158,7 +165,7 @@ then
 	mv ca/certs/$COMMONNAME.cert certs
 	rm ca/request/$COMMONNAME.req
 fi
-if test -f ca/certs/$COMMONNAME.key
+if test -f ca/private/$COMMONNAME.key
 then
-	mv ca/certs/$COMMONNAME.key certs
+	mv ca/private/$COMMONNAME.key certs
 fi

@@ -3,6 +3,15 @@ TLS-O-MATIC.COM
 Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
 Meetup in Stockholm in March 2015.
 
+About the scripts
+-----------------
+These scripts allow you to make certificates for test purposes. The
+certificates will all share a common CA root so that everyone running
+these scripts can have interoperable certificates. WARNING - these
+certificates are totally insecure and are for test purposes only. All
+the CA created by this script share the same private key to
+facilitate interoperation testing, but this totally breaks the
+security since the private key of the CA is well known.
 
 Things to go through before and during tests
 --------------------------------------------
@@ -46,11 +55,22 @@ Tests
 8.	Client cert required
 	- https://test8.tls-o-matic.com:408
 
+9. 	MD5 certificate
+	- https://test9.tls-o-matic.com:409
+
+10.	Intermediate cert
+	- https://test10.tls-o-matic.com:410
+
+11.	Long certificate chain (3 intermediaries)
+	- https://test11.tls-o-matic.com:411
+
 Possible future cert tests
 --------------------------
 	- SNI, Server name indication
 	- Cert with wrong usage (E-mail sign or SIP)
-	- MD5 signed cert
+	- MD5 signed cert -done
+	- Cert with intermediary
+	- Cert with many intermediaries
 
 Other TLS test ideas
 --------------------

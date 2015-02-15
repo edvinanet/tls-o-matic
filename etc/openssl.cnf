@@ -2,6 +2,14 @@
 # OpenSSL configuration file.
 # For TLS-O-MATIC (TM)
 #
+#	------ DO NOT USE THESE CERTIFICATES FOR ANY OTHER THING THAN TESTING ------
+#	These scripts allow you to make certificates for test purposes. The
+   #	certificates will all share a common CA root so that everyone running
+   #	these scripts can have interoperable certificates. WARNING - these
+   #	certificates are totally insecure and are for test purposes only. All
+   #	the CA created by this script share the same private key to
+   #	facilitate interoperation testing, but this totally breaks the
+   #	security since the private key of the CA is well known.
 
 # This definition stops the following lines choking if HOME isn't
 # defined.
@@ -39,7 +47,7 @@ serial		= $dir/serial 		# The current serial number
 crlnumber	= $dir/crlnumber	# the current crl number
 					# must be commented out to leave a V1 CRL
 crl		= $dir/crl.pem 		# The current CRL
-private_key	= $dir/private/cakey.pem# The private key
+private_key	= $dir/private/cacert.key # The private key
 RANDFILE	= $dir/private/.rand	# private random number file
 
 x509_extensions	= usr_cert		# The extentions to add to the cert
@@ -66,6 +74,47 @@ preserve	= no			# keep passed DN ordering
 # For type CA, the listed attributes must be the same, and the optional
 # and supplied fields are just that :-)
 policy		= policy_match
+
+
+[ CA_bad ]
+#
+# The evil CA - not known by anyone
+# Issuing 10 year certificates for anything
+#
+dir		= ./ca/bad			# Where everything is kept
+
+certs		= $dir/certs		# Where the issued certs are kept
+crl_dir		= $dir/crl		# Where the issued crl are kept
+database	= $dir/index.txt	# database index file.
+unique_subject	= no			# Set to 'no' to allow creation of
+					# several ctificates with same subject.
+new_certs_dir	= $dir/newcerts		# default place for new certs.
+certificate	= $dir/cacert.pem 	# The CA certificate
+serial		= $dir/serial 		# The current serial number
+crlnumber	= $dir/crlnumber	# the current crl number
+					# must be commented out to leave a V1 CRL
+crl		= $dir/crl.pem 		# The current CRL
+private_key	= $dir/private/cakey.pem# The private key
+RANDFILE	= $dir/private/.rand	# private random number file
+x509_extensions	= usr_cert_evil		# The extentions to add to the cert
+
+name_opt 	= ca_default		# Subject Name options
+cert_opt 	= ca_default		# Certificate field options
+
+# Extension copying option: use with caution.
+# copy_extensions = copy
+
+# Extensions to add to a CRL. Note: Netscape communicator chokes on V2 CRLs
+# so this is commented out by default to leave a V1 CRL.
+# crlnumber must also be commented out to leave a V1 CRL.
+# crl_extensions	= crl_ext
+
+default_days	= 3650			# how long to certify for
+default_crl_days= 30			# how long before next CRL
+default_md	= sha1		# which md to use.
+preserve	= no			# keep passed DN ordering
+policy		= policy_match
+
 
 # For the CA policy
 [ policy_match ]
@@ -119,10 +168,14 @@ default_md = sha256
 
 
 # SET-ex3			= SET extension number 3
+
 [ req_distinguished_name ]      
 
 0.organizationName              = Organization Name (eg, company)
-0.organizationName_default      = Internet Widgits Pty Ltd
+0.organizationName_default      = ${ENV::COMPANYNAME}
+0.organizationName_min		= 4
+0.organizationName_max		= 80
+#0.organizationName_default      = Internet Widgits Pty Ltd
 
 commonName                      = Server DNS name
 commonName_max                  = 64
@@ -199,6 +252,14 @@ nsComment	= "TLS-O-Matic Beer Validation Certificate 💰 "
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid,issuer
 
+[ usr_cert_evil ]
+basicConstraints=CA:FALSE
+extendedKeyUsage = serverAuth
+nsComment	= "TLS-O-Matic Evil No Validation Certificate 👿  "
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+
+[ v3_req ]
 [ v3_req ]
 
 # Extensions to add to a certificate request
@@ -303,4 +364,34 @@ subjectAltName=${ENV::ALTNAME}
 subjectKeyIdentifier=hash
 #authorityKeyIdentifier=keyid,issuer:always
 #keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+[ intermediate_cert ]
+# These extensions are added when 'ca' signs an intermediate certificate
+basicConstraints=CA:TRUE
+
+# This is typical in keyUsage for a client certificate.
+# keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+#keyUsage = digitalSignature
+
+#web site usage
+#extendedKeyUsage = keyCertSign
+
+# This will be displayed in Netscape's comment listbox.
+nsComment	= "TLS-O-Matic Intermediate Certificate 🔐  . This is one in a chain that you have to verify "
+
+# PKIX recommendations harmless if included in all certificates.
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+
+subjectAltName=email:ca@tls-o-matic.com
+
+# Copy subject details
+issuerAltName=issuer:copy
+
+nsCaRevocationUrl	= https://www.tls-o-matic.com/we-never-revoke-ha-ha-ha/ca/
+#nsBaseUrl
+nsRevocationUrl	= https://www.tls-o-matic.com/we-never-revoke-ha-ha-ha/
+nsRenewalUrl = https://www.tls-o-matic.com/renew/
+nsCaPolicyUrl = https://www.tls-o-matic.com/policy/
+#nsSslServerName
 

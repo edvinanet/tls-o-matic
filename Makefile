@@ -1,7 +1,7 @@
 #
 
 .PHONY=certs
-certs: test1 test3 test2
+certs: test1 test2 test3 test4 test5 test6
 	@echo "✅  done!"
 
 # Normal cert, with SAN for domain
@@ -17,4 +17,12 @@ test3:
 	bin/createcert.sh cert test3.tls-o-matic.com test3.tls-o-matic.null
 
 test4:
-	bin/createcert.sh cert \'*.tls-o-matic.com\' \'*.test.tls-o-matic.com\'
+	bin/createcert.sh cert \*.tls-o-matic.com \*.test.tls-o-matic.com
+
+test5:
+	# Future certificate
+	bin/createcert.sh future test5.tls-o-matic.com test5.tls-o-matic.com
+
+test6:
+	# Expired certificate
+	bin/createcert.sh expired test6.tls-o-matic.com test6.tls-o-matic.com

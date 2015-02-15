@@ -23,10 +23,12 @@ Tests
 
 2.	Wrong certificate - bad CN
 	- https://test2.tls-o-matic.com:402
-		Obs! No SAN in the cert, please
+		Note: No SAN in the cert
+		CN test2.tls-o-matic.null
 
 3.	Wrong cert - bad SubjAltName
 	- https://test3.tls-o-matic.com:403
+		SAN: https://test3.tls-o-matic.null
 
 4.	Wildcard cert
 	- https://test4.tls-o-matic.com:404

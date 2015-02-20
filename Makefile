@@ -25,9 +25,10 @@ web:
 	make -C httpd/test10
 	make -C httpd/test11
 	make -C httpd/test12
+	make -C httpd/test13
 	@echo "✅  done!"
 
-certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12
+certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13
 	@echo "✅  done!"
 
 ca:
@@ -178,6 +179,5 @@ alltests:
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test10.$(domain):410 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test11.$(domain):411 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test12.$(domain):412 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
-	# This should fail
-	#@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test13.$(domain):413 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test13.$(domain):413 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "✅  done! heck /tmp/testresult"

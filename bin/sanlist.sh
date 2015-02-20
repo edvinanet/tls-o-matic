@@ -1,8 +1,8 @@
 #!/bin/sh
 # Create a list of Subejct ALT Names
 
-DOMAIN=testsna.tls-o-matic.com
-DEFDOMAIN=DNS:test12.tls-o-matic.com
+DOMAIN=testsna.$1
+DEFDOMAIN=DNS:test12.$1
 
 /bin/echo -n "$DEFDOMAIN"
 MAXSAN=200

@@ -29,6 +29,7 @@ function help()
 	echo "Syntax: <certtype> hostname altname"
 	echo "Certtype:"
 	echo "    cert      Default: SHA 256, subject alt name"
+	echo "    bigcert   Default: SHA 256, subject alt name, big key"
 	echo "    sancert   Default: SHA 256, subject alt name list as argument"
 	echo "    md5       MD5-signed certificate"
 	echo "    nosan     Certificate with only CN"
@@ -67,6 +68,11 @@ fi
 if test $1 = future; then
 	# Date format is YYMMDDHHMMSSZ
     	OPTION="$OPTION -startdate 250214220000Z -enddate 250214220101Z"
+	ERROR=0
+fi
+if test $1 = bigcert; then
+	OPTION="$OPTION -md sha512"
+	REQOPTION="$REQOPTION -newkey rsa:16384"
 	ERROR=0
 fi
 if test $1 = cert; then

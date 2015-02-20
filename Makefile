@@ -8,6 +8,7 @@
 domain:=tls-o-matic.com
 .PHONY=certs
 COMPANYNAME:=Default TLS company
+OPENSSL=/opt/local/bin/openssl
 
 export COMPANYNAME
 
@@ -23,9 +24,10 @@ web:
 	make -C httpd/test9
 	make -C httpd/test10
 	make -C httpd/test11
+	make -C httpd/test12
 	@echo "✅  done!"
 
-certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11
+certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12
 	@echo "✅  done!"
 
 ca:
@@ -128,8 +130,54 @@ test11:
 
 test12:   
 	#Many SANs
-	bin/sanlist.sh > /tmp/sanlist.tmp
+	bin/sanlist.sh $(domain)> /tmp/sanlist.tmp
 	COMPANYNAME="The Web Server King" \
-	bin/createcert.sh sancert "test12.tls-o-matic.com"  `cat /tmp/sanlist.tmp`
+	bin/createcert.sh sancert "test12.$(domain)"  `cat /tmp/sanlist.tmp`
 	rm /tmp/sanlist.tmp
 	@echo "✅  done!"
+
+test13:   
+	# A key of 8192 bits
+	COMPANYNAME="The Large Super Key Company" \
+	bin/createcert.sh bigcert test13.$(domain)  test13.$(domain)
+	@echo "✅  done!"
+
+test13:   
+
+
+alltests:
+	@echo `date` > /tmp/testresult
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test1.$(domain):443 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test2.$(domain):402 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test3.$(domain):403 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test4.$(domain):404 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test5.$(domain):405 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test6.$(domain):406 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test7.$(domain):407 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	# test8 - Requires a client cert
+	#@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test8.$(domain):408 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test9.$(domain):409 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test10.$(domain):410 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test11.$(domain):411 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test12.$(domain):412 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	# This should fail
+
+
+alltests:
+	@echo `date` > /tmp/testresult
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test1.$(domain):443 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test2.$(domain):402 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test3.$(domain):403 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test4.$(domain):404 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test5.$(domain):405 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test6.$(domain):406 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test7.$(domain):407 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	# test8 - Requires a client cert
+	#@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test8.$(domain):408 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test9.$(domain):409 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test10.$(domain):410 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test11.$(domain):411 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test12.$(domain):412 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	# This should fail
+	#@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test13.$(domain):413 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "✅  done! heck /tmp/testresult"

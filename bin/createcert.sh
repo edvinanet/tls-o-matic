@@ -29,6 +29,7 @@ function help()
 	echo "Syntax: <certtype> hostname altname"
 	echo "Certtype:"
 	echo "    cert      Default: SHA 256, subject alt name"
+	echo "    sancert   Default: SHA 256, subject alt name list as argument"
 	echo "    md5       MD5-signed certificate"
 	echo "    nosan     Certificate with only CN"
 	echo "    evil      Certificate signed by evil CA"
@@ -93,6 +94,11 @@ if test $1 = inter3cert; then
 	ALTNAME=email:info@$DOMAIN
 	echo "*** --- Signing with intermediate CA cert with CERT $CACERT and key $KEYFILE "
 	# AltName is not used, but the req settings require one
+	ERROR=0
+fi
+if test $1 = sancert; then
+	COMMONNAME="$2"
+	ALTNAME="$3"
 	ERROR=0
 fi
 if test $1 = intermed; then

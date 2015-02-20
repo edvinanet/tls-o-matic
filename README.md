@@ -65,6 +65,9 @@ Tests
 11.	Long certificate chain (3 intermediaries)
 	- https://test11.tls-o-matic.com:411
 
+12.	Huge certificate with a lot of subject alt names (21 kb cert)
+	- https://test12.tls-o-matic.com:412
+
 Possible future cert tests
 --------------------------
 	- SNI, Server name indication

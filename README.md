@@ -68,6 +68,9 @@ Tests
 12.	Huge certificate with a lot of subject alt names (21 kb cert)
 	- https://test12.tls-o-matic.com:412
 
+13.	Certificate based on a very large key with SHA512 checksum
+	- https://test13.tls-o-matic.com:413
+
 Possible future cert tests
 --------------------------
 	- SNI, Server name indication

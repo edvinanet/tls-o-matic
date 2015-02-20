@@ -125,3 +125,11 @@ test11:
 	COMPANYNAME="Do it yourself" \
 	bin/createcert.sh intercert certs/TLS-o-matic-intermediate-3.cert test11.$(domain)
 	@echo "✅  done!"
+
+test12:   
+	#Many SANs
+	bin/sanlist.sh > /tmp/sanlist.tmp
+	COMPANYNAME="The Web Server King" \
+	bin/createcert.sh sancert "test12.tls-o-matic.com"  `cat /tmp/sanlist.tmp`
+	rm /tmp/sanlist.tmp
+	@echo "✅  done!"

@@ -88,7 +88,7 @@ intermediate:
 test1:  
 	# Normal cert, with SAN for domain
 	COMPANYNAME="Arrogant Security Consultants LLC" \
-	bin/createcert.sh cert test1.$(domain) $(domain)
+	bin/createcert.sh cert test1.$(domain) test1.$(domain)
 	@echo "✅  done!"
 
 test2:  
@@ -106,7 +106,7 @@ test3:
 test4:
 	# Wildcards
 	COMPANYNAME="Can't Make Up My Mind Inc" \
-	bin/createcert.sh cert \*.$(domain) \*.test.$(domain),DNS:\*.$(domain),DNS:\*.beta.$(domain)
+	bin/createcert.sh cert \*.$(domain) \*.test.$(domain),DNS:\*.$(domain),DNS:\*.beta.$(domain)	test4.$(domain)
 	@echo "✅  done!"
 
 test5:

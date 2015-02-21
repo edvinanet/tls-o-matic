@@ -5,7 +5,7 @@ all:
 	@if ! test -h www/logo.png;then \
 		ln -s /usr/local/tls-o-matic/images/tls-o-matic-small.png www/logo.png ;\
 		fi
-	@cp ../../certs/$(test)* .
+	@cp ../../certs/$(test).* .
 	@echo "==> Starting HTTPD server for $(test).$(domain)"
 	@/usr/sbin/httpd -f /usr/local/tls-o-matic/httpd/$(test)/server.conf
 	@sleep 1	# Wait for apache to create PID file

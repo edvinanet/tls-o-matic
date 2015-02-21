@@ -2,6 +2,7 @@
 ERROR=1
 CACERT=ca/cacert.pem
 DOMAIN=tls-o-matic.com
+FILENAME=$2
 
 if test -z "$COMPANYNAME"
 then
@@ -82,6 +83,7 @@ if test $1 = intercert; then
 	# Sign with intermediate cert
 	CACERT=$2
 	COMMONNAME=$3
+	FILENAME=$3
 	KEYFILE=`dirname $CACERT`/`basename $CACERT`.key
 	findkey
 	OPTION="$OPTION  -keyfile $KEYFILE"
@@ -94,6 +96,7 @@ if test $1 = inter3cert; then
 	# Sign with intermediate cert
 	CACERT=$2
 	COMMONNAME=$3
+	FILENAME=$3
 	KEYFILE=`dirname $CACERT`/`basename $CACERT .pem`.key
 	findkey
 	OPTION="$OPTION  -keyfile $KEYFILE"
@@ -112,6 +115,7 @@ if test $1 = intermed; then
 	OPTION="$OPTION -extensions intermediate_cert"
 	CACERT=$2
 	COMMONNAME=$3
+	FILENAME=$3
 	KEYFILE=`dirname $CACERT`/`basename $CACERT .pem`.key
 	if ! test -f $KEYFILE
 	then
@@ -150,6 +154,9 @@ else
 		ALTNAME=DNS:$3
 	fi
 fi
+if ! test -z $4;then
+	FILENAME=$4
+fi
 #Generate request
 echo "Company $COMPANYNAME Common Name (CN) $COMMONNAME Alt $ALTNAME"
 export COMMONNAME ALTNAME
@@ -160,24 +167,24 @@ export COMMONNAME ALTNAME
 #	- verbose  Extra information
 
 openssl req -new -nodes $REQOPTION \
-	-out "ca/request/$COMMONNAME.req" \
-	-keyout "ca/private/$COMMONNAME.key" \
+	-out "ca/request/$FILENAME.req" \
+	-keyout "ca/private/$FILENAME.key" \
 	-config etc/openssl.cnf
 
 #Sign request And create cert
 openssl ca  $OPTION \
 	-cert $CACERT \
 	-config etc/openssl.cnf \
-	-out "ca/certs/$COMMONNAME.cert" \
-	-infiles "ca/request/$COMMONNAME.req"
+	-out "ca/certs/$FILENAME.cert" \
+	-infiles "ca/request/$FILENAME.req"
 
 # Move the files to the proper place
-if test -f ca/certs/$COMMONNAME.cert
+if test -f ca/certs/$FILENAME.cert
 then
-	mv ca/certs/$COMMONNAME.cert certs
-	rm ca/request/$COMMONNAME.req
+	mv ca/certs/$FILENAME.cert certs
+	rm ca/request/$FILENAME.req
 fi
-if test -f ca/private/$COMMONNAME.key
+if test -f ca/private/$FILENAME.key
 then
-	mv ca/private/$COMMONNAME.key certs
+	mv ca/private/$FILENAME.key certs
 fi

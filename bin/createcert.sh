@@ -27,7 +27,7 @@ function findkey()
 
 function help()
 {
-	echo "Syntax: <certtype> hostname altname"
+	echo "Syntax: <certtype> hostname altname [filename]"
 	echo "Certtype:"
 	echo "    cert      Default: SHA 256, subject alt name"
 	echo "    bigcert   Default: SHA 256, subject alt name, big key"
@@ -39,8 +39,11 @@ function help()
 	echo "    future    Valid in the future default cert"
 	echo "    weird     Weird certificate with strange usages"
 	echo "    intermed  Create intermediate cert. First arg is CA cert to sign with, second is name"
+	echo "              $0 intermed certname servername"
 	echo "    intercert  Create cert signed by intermediate cert"
+	echo "              $0 intercert certname servername"
 	echo "    inter3cert  Create cert signed by intermediate cert 3"
+	echo ""
 	exit
 }
 

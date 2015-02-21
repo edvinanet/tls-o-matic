@@ -93,11 +93,21 @@ test1:
 	bin/createcert.sh cert test1.$(domain) test1.$(domain)
 	@echo "✅  done!"
 
+curltest1:
+	# Successful test
+	curl --cacert ca/cacert.pem https://test1.tls-o-matic.com/
+
 test2:  
 	# Cert with no SAN, bad CN
 	COMPANYNAME="Another one bites the dust Inc" \
 	bin/createcert.sh nosan test2.tls-o-matic.null
 	@echo "✅  done!"
+
+curltest2:
+	# Successful test
+	@echo "Wrong certificate - bad SAN"
+	curl --cacert ca/cacert.pem https://test2.tls-o-matic.com:402/
+
 
 test3:  
 	# Cert with bad SAN

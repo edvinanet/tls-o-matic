@@ -29,6 +29,7 @@ killall:
 	#	make -C httpd/test14
 	make -C httpd/test15 kill
 	make -C httpd/test20 kill
+	make -C httpd/test21 kill
 	@echo "✅  done!"
 
 web:
@@ -48,9 +49,10 @@ web:
 	#	make -C httpd/test14
 	make -C httpd/test15
 	make -C httpd/test20
+	make -C httpd/test21
 	@echo "✅  done!"
 
-certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20
+certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21
 	@echo "✅  done!"
 
 ca:
@@ -188,6 +190,12 @@ test20:
 	# Normal cert, with SAN for domain - the test is for crypto and TLS versions (Bettercrypto.org)
 	COMPANYNAME="Cybercrime Security Experts INC" \
 	bin/createcert.sh cert test20.$(domain) test20.$(domain)
+	@echo "✅  done!"
+
+test21:  
+	# weak cert. Server with SSL only (no TLS)
+	COMPANYNAME="King Arthur Medival Security Experts INC" \
+	bin/createcert.sh md5 test21.$(domain) test21.$(domain)
 	@echo "✅  done!"
 
 

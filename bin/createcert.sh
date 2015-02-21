@@ -48,6 +48,7 @@ if test -z $1;then
 fi
 if test $1 = md5; then
 	OPTION="$OPTION -md md5"
+    	OPTION="$OPTION -startdate 920101012828Z -enddate 350401010101Z"
 	# Use a smaller key length too
 	REQOPTION="$REQOPTION -newkey rsa:512"
 	ERROR=0

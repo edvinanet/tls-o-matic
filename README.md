@@ -26,8 +26,8 @@ Things to go through before and during tests
 	- What is SubjectAltName
 	- Selfsigned certificates, CA signed certs - DV, EV
 
-Tests
------
+Certificate and CA Tests
+-------------------------
 
 1.	Describe CA, download CA cert
 	- Access https://test1.tls-o-matic.com
@@ -61,7 +61,7 @@ Tests
 8.	Client cert required
 	- https://test8.tls-o-matic.com:408
 
-9. 	MD5 certificate
+9. 	Weak certificate - small key, MD5 signature
 	- https://test9.tls-o-matic.com:409
 
 10.	Intermediate cert
@@ -87,6 +87,11 @@ Tests
 	- https://test15a.tls-o-matic.com:415
 	- https://test15b.tls-o-matic.com:415
 
+
+
+
+Crypto and SSL/TLS protocol tests
+---------------------------------
 20.	Not a certificate test. This server has no SSLv2 or SSLv3 and only supports
 	strong crypto algorithms. Based on recommendations from http://bettercrypto.org
 	- https://test20.tls-o-matic.com:420

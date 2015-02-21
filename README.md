@@ -4,6 +4,11 @@ TLS-O-MATIC.COM
 Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
 Meetup in Stockholm in March 2015.
 
+Tests 1-14 are tests of certificate validation.
+
+Test 20 is based on recommendations from bettercrypto.org on how
+to configure Apache HTTPD for a strong server. 
+
 About the scripts
 -----------------
 These scripts allow you to make certificates for test purposes. The
@@ -71,6 +76,10 @@ Tests
 13.	Certificate based on a very large key with SHA512 checksum
 	- https://test13.tls-o-matic.com:413
 
+20.	Not a certificate test. This server has no SSLv2 or SSLv3 and only supports
+	strong crypto algorithms. Based on recommendations from http://bettercrypto.org
+	- https://test20.tls-o-matic.com:420
+
 Possible future cert tests
 --------------------------
 	- SNI, Server name indication
@@ -81,7 +90,6 @@ Other TLS test ideas
 	- Site that only allows SSLv2
 	- Site that only allows TLSv1.2
 	- Site that only offers null crypto
-	- Site that actually follows bettercrypto.org (and UTA BCP)
 
 API tests
 ---------

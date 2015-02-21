@@ -130,7 +130,7 @@ test7:
 test8:  
 	# Normal cert, with SAN for domain (test involves client cert)
 	COMPANYNAME="We Challenge You, Inc" \
-	bin/createcert.sh cert test8.$(domain) $(domain)
+	bin/createcert.sh cert test8.$(domain) $(domain),DNS:test8.$(domain),URI:sip:info@$(domain)
 	@echo "✅  done!"
 
 test9:

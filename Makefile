@@ -12,6 +12,25 @@ OPENSSL=/opt/local/bin/openssl
 
 export COMPANYNAME
 
+killall:
+	make -C httpd/test1 kill
+	make -C httpd/test2 kill
+	make -C httpd/test3 kill
+	make -C httpd/test4 kill
+	make -C httpd/test5 kill
+	make -C httpd/test6 kill
+	make -C httpd/test7 kill
+	make -C httpd/test8 kill
+	make -C httpd/test9 kill
+	make -C httpd/test10 kill
+	make -C httpd/test11 kill
+	make -C httpd/test12 kill
+	make -C httpd/test13 kill
+	#	make -C httpd/test14
+	make -C httpd/test15 kill
+	make -C httpd/test20 kill
+	@echo "✅  done!"
+
 web:
 	make -C httpd/test1
 	make -C httpd/test2

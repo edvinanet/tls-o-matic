@@ -76,6 +76,17 @@ Tests
 13.	Certificate based on a very large key with SHA512 checksum
 	- https://test13.tls-o-matic.com:413
 
+14.	Invalid test. :-)
+
+15.	TLS SNI test. One server, multiple certificates. Check which certificate
+	you get from the server. The client indicates support for TLS SNI.
+
+	- https://test15.tls-o-matic.com:415	Default server. You will always end up here 
+						if your client does not support TLS
+						server name indication for test15a or test15b
+	- https://test15a.tls-o-matic.com:415
+	- https://test15b.tls-o-matic.com:415
+
 20.	Not a certificate test. This server has no SSLv2 or SSLv3 and only supports
 	strong crypto algorithms. Based on recommendations from http://bettercrypto.org
 	- https://test20.tls-o-matic.com:420

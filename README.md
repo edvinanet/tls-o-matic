@@ -97,6 +97,13 @@ Crypto and SSL/TLS protocol tests
 	strong crypto algorithms. Based on recommendations from http://bettercrypto.org
 	- https://test20.tls-o-matic.com:420
 
+21.	Not a certificate test. This server has only SSLv2 or SSLv3 and only supports
+	weak crypto algorithms. Based on recommendations from Netscape Communication in 
+	the 90's. Good old times are here again.
+	Browsers does not accept cert or crypto.
+	- https://test21.tls-o-matic.com:421
+
+
 Possible future cert tests
 --------------------------
 	- SNI, Server name indication

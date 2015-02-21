@@ -76,7 +76,8 @@ Certificate and CA Tests
 13.	Certificate based on a very large key with SHA512 checksum
 	- https://test13.tls-o-matic.com:413
 
-14.	Invalid test. :-)
+14.	Certificate with a weird combination of usage bits.
+	- https://test14.tls-o-matic.com:414
 
 15.	TLS SNI test. One server, multiple certificates. Check which certificate
 	you get from the server. The client indicates support for TLS SNI.

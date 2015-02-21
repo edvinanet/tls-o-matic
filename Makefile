@@ -26,12 +26,12 @@ web:
 	make -C httpd/test11
 	make -C httpd/test12
 	make -C httpd/test13
-	make -C httpd/test14
+	#	make -C httpd/test14
 	make -C httpd/test15
 	make -C httpd/test20
 	@echo "✅  done!"
 
-certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test20
+certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20
 	@echo "✅  done!"
 
 ca:

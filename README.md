@@ -106,13 +106,10 @@ Crypto and SSL/TLS protocol tests
 
 Possible future cert tests
 --------------------------
-	- SNI, Server name indication
-	- Cert with wrong usage (E-mail sign or SIP)
+	- Cert used for HTTP with no subject CN and only http URI's as sAN names
 
 Other TLS test ideas
 --------------------
-	- Site that only allows SSLv2
-	- Site that only allows TLSv1.2
 	- Site that only offers null crypto
 
 API tests

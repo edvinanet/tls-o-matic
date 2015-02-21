@@ -172,6 +172,12 @@ test13:
 	@echo "✅  done!"
 
 
+test14:   
+	# weird usage bits
+	COMPANYNAME="Ting Tagel Upside Down and Inside Out Non-Restful Services Inc" \
+	bin/createcert.sh weird test14.$(domain)  test14.$(domain)
+	@echo "✅  done!"
+
 test15:
 	# TLS SNI tests - test15a, test15b, test15 (default server)
 	# ca -> intermediate 1 -> test15

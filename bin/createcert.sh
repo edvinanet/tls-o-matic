@@ -37,6 +37,7 @@ function help()
 	echo "    evil      Certificate signed by evil CA"
 	echo "    expired   Expired default cert"
 	echo "    future    Valid in the future default cert"
+	echo "    weird     Weird certificate with strange usages"
 	echo "    intermed  Create intermediate cert. First arg is CA cert to sign with, second is name"
 	echo "    intercert  Create cert signed by intermediate cert"
 	echo "    inter3cert  Create cert signed by intermediate cert 3"
@@ -54,7 +55,14 @@ if test $1 = md5; then
 	ERROR=0
 fi
 if test $1 = nosan; then
+	# Use another section of openssl.cnf
 	OPTION="$OPTION -extensions usr_cert_no_san"
+	ERROR=0
+fi
+if test $1 = weird; then
+	# Use another section of openssl.cnf
+	OPTION="$OPTION -extensions strangecert"
+	REQOPTION="$REQOPTION -newkey rsa:4096"
 	ERROR=0
 fi
 if test $1 = evil; then

@@ -358,12 +358,13 @@ basicConstraints=CA:FALSE
 subjectKeyIdentifier=hash
 #authorityKeyIdentifier=keyid,issuer:always
 
-[ skrep2 ]
+[ strangecert ]
 basicConstraints = CA:FALSE
 subjectAltName=${ENV::ALTNAME}
 subjectKeyIdentifier=hash
 #authorityKeyIdentifier=keyid,issuer:always
-#keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment,encipherOnly,dataEncipherment,keyCertSign
+extendedKeyUsage = emailProtection
 
 [ intermediate_cert ]
 # These extensions are added when 'ca' signs an intermediate certificate

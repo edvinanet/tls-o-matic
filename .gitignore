@@ -3,9 +3,15 @@ ca/certs/*cert
 ca/request/*req
 ca/newcerts/*pem
 ca/*old
+ca/index*
+ca/serial*
 
 ca/bad/private/*key
 ca/bad/certs/*cert
 ca/bad/request/*req
 ca/bad/newcerts/*pem
 ca/bad/*old
+
+httpd/*/*key
+httpd/*/*cert
+httpd/*/www/logo.png

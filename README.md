@@ -76,7 +76,8 @@ Certificate and CA Tests
 13.	Certificate based on a very large key with SHA512 checksum
 	- https://test13.tls-o-matic.com:413
 
-14.	Invalid test. :-)
+14.	Certificate with a weird combination of usage bits.
+	- https://test14.tls-o-matic.com:414
 
 15.	TLS SNI test. One server, multiple certificates. Check which certificate
 	you get from the server. The client indicates support for TLS SNI.
@@ -96,15 +97,19 @@ Crypto and SSL/TLS protocol tests
 	strong crypto algorithms. Based on recommendations from http://bettercrypto.org
 	- https://test20.tls-o-matic.com:420
 
+21.	Not a certificate test. This server has only SSLv2 or SSLv3 and only supports
+	weak crypto algorithms. Based on recommendations from Netscape Communication in 
+	the 90's. Good old times are here again.
+	Browsers does not accept cert or crypto.
+	- https://test21.tls-o-matic.com:421
+
+
 Possible future cert tests
 --------------------------
-	- SNI, Server name indication
-	- Cert with wrong usage (E-mail sign or SIP)
+	- Cert used for HTTP with no subject CN and only http URI's as sAN names
 
 Other TLS test ideas
 --------------------
-	- Site that only allows SSLv2
-	- Site that only allows TLSv1.2
 	- Site that only offers null crypto
 
 API tests

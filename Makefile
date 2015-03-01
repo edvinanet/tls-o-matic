@@ -1,4 +1,4 @@
-#
+# $(domain)
 # Makefile for tls-o-matic self-tests
 # ===================================
 # Note: This is for test only. No certificate created should be used in
@@ -52,18 +52,22 @@ web:
 	make -C httpd/test21
 	@echo "✅  done!"
 
-certs: intermediate test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21
+certs: ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
+	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21
 	@echo "✅  done!"
 
-ca:
+ca:	ca/cacert.pem
+
+ca/cacert.pem:
 	@echo "===> Creating normal CA"
-	bin/createca.sh
+	bin/createca.sh $(domain)
+
+ca/bad/cacert.pem:
 	@echo "===> Creating evil CA"
 	bin/createevilca.sh
 	@echo "✅  done!"
 
-.PHONY=intermediate
-intermediate:
+intermediate: ca/cacert.pem
 	# Create three intermediate certificates under the primary cert
 	# Needs to be run after 
 	@echo " "
@@ -87,71 +91,71 @@ intermediate:
 	bin/createcert.sh intermed certs/TLS-o-matic-intermediate-4.cert	TLS-o-matic-intermediate-4
 	@echo "✅  done!"
 
-test1:  
+test1:  ca/cacert.pem
 	# Normal cert, with SAN for domain
 	COMPANYNAME="Arrogant Security Consultants LLC" \
 	bin/createcert.sh cert test1.$(domain) test1.$(domain)
 	@echo "✅  done!"
 
-curltest1:
+curltest1: ca/cacert.pem
 	# Successful test
 	curl --cacert ca/cacert.pem https://test1.tls-o-matic.com/
 
-test2:  
+test2:  ca/cacert.pem
 	# Cert with no SAN, bad CN
 	COMPANYNAME="Another one bites the dust Inc" \
 	bin/createcert.sh nosan test2.tls-o-matic.null
 	@echo "✅  done!"
 
-curltest2:
+curltest2: ca/cacert.pem
 	# Successful test
 	@echo "Wrong certificate - bad SAN"
 	curl --cacert ca/cacert.pem https://test2.tls-o-matic.com:402/
 
 
-test3:  
+test3:  ca/cacert.pem
 	# Cert with bad SAN
 	COMPANYNAME="Lucy In the Sky with Certificates" \
 	bin/createcert.sh cert test3.$(domain) test3.tls-o-matic.null
 	@echo "✅  done!"
 
-test4:
+test4:  ca/cacert.pem
 	# Wildcards
 	COMPANYNAME="Can't Make Up My Mind Inc" \
 	bin/createcert.sh cert \*.$(domain) \*.test.$(domain),DNS:\*.$(domain),DNS:\*.beta.$(domain)	test4.$(domain)
 	@echo "✅  done!"
 
-test5:
+test5:	ca/cacert.pem
 	# Future certificate
 	COMPANYNAME="Marty and Doc's Environmentally friendly cars" \
 	bin/createcert.sh future test5.$(domain) test5.$(domain)
 	@echo "✅  done!"
 
-test6:
+test6:	ca/cacert.pem
 	# Expired certificate
 	COMPANYNAME="Soup and Barbecue Kitchen from the 60's" \
 	bin/createcert.sh expired test6.$(domain) test6.$(domain)
 	@echo "✅  done!"
 
-test7:
+test7:	ca/bad/cacert.pem
 	# Certificate from bad CA
 	COMPANYNAME="We don't trust anyone" \
 	bin/createcert.sh evil test7.$(domain) test7.$(domain)
 	@echo "✅  done!"
 
-test8:  
+test8:  ca/cacert.pem
 	# Normal cert, with SAN for domain (test involves client cert)
 	COMPANYNAME="We Challenge You, Inc" \
 	bin/createcert.sh cert test8.$(domain) $(domain),DNS:test8.$(domain),URI:sip:info@$(domain)
 	@echo "✅  done!"
 
-test9:
+test9:	ca/cacert.pem
 	# Certificate from md5 CA with 512 bits. Good old times.
 	COMPANYNAME="MD5 was good enough in the 90's" \
 	bin/createcert.sh md5 test9.$(domain) $(domain)
 	@echo "✅  done!"
 
-test10:
+test10:	ca/cacert.pem
 	# intermediate cert under the first one 
 	# ca -> intermediate 1 -> test10
 	# depends on running "make intermediate" first
@@ -159,7 +163,7 @@ test10:
 	bin/createcert.sh intercert test10.$(domain) $(domain)
 	@echo "✅  done!"
 
-test11:
+test11:	ca/cacert.pem
 	# intermediate cert 3
 	# depends on running "make intermediate" first
 	# ca -> intermediate 1 -> intermediate 2 -> intermediate 3 -> cert
@@ -167,7 +171,7 @@ test11:
 	bin/createcert.sh intercert certs/TLS-o-matic-intermediate-3.cert test11.$(domain)
 	@echo "✅  done!"
 
-test12:   
+test12: ca/cacert.pem
 	#Many SANs
 	bin/sanlist.sh $(domain)> /tmp/sanlist.tmp
 	COMPANYNAME="The Web Server King" \
@@ -175,20 +179,20 @@ test12:
 	rm /tmp/sanlist.tmp
 	@echo "✅  done!"
 
-test13:   
+test13:	ca/cacert.pem
 	# A key of 8192 bits
 	COMPANYNAME="The Large Super Key Company" \
 	bin/createcert.sh bigcert test13.$(domain)  test13.$(domain)
 	@echo "✅  done!"
 
 
-test14:   
+test14:	ca/cacert.pem
 	# weird usage bits
 	COMPANYNAME="Ting Tagel Upside Down and Inside Out Non-Restful Services Inc" \
 	bin/createcert.sh weird test14.$(domain)  test14.$(domain)
 	@echo "✅  done!"
 
-test15:
+test:	ca/cacert.pem
 	# TLS SNI tests - test15a, test15b, test15 (default server)
 	# ca -> intermediate 1 -> test15
 	COMPANYNAME="TLS Hosting Company" \
@@ -202,13 +206,13 @@ test15:
 	@echo "   ☑️   done with cert 3/3!"
 	@echo "✅  done!"
 
-test20:  
+test20:	ca/cacert.pem
 	# Normal cert, with SAN for domain - the test is for crypto and TLS versions (Bettercrypto.org)
 	COMPANYNAME="Cybercrime Security Experts INC" \
 	bin/createcert.sh cert test20.$(domain) test20.$(domain)
 	@echo "✅  done!"
 
-test21:  
+test21:	ca/cacert.pem
 	# weak cert. Server with SSL only (no TLS)
 	COMPANYNAME="King Arthur Medival Security Experts INC" \
 	bin/createcert.sh md5 test21.$(domain) test21.$(domain)
@@ -216,7 +220,7 @@ test21:
 
 
 
-alltests:
+alltests:	ca/cacert.pem	ca/bad/cacert.pem
 	@echo `date` > /tmp/testresult
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test1.$(domain):443 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test2.$(domain):402 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
@@ -232,4 +236,7 @@ alltests:
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test11.$(domain):411 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test12.$(domain):412 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test13.$(domain):413 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
-	@echo "✅  done! heck /tmp/testresult"
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test14.$(domain):414 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test15.$(domain):415 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test20.$(domain):420 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "✅  done! Check /tmp/testresult"

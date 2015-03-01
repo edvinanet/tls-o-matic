@@ -295,7 +295,7 @@ basicConstraints = CA:true
 
 # Include email address in subject alt name: another PKIX recommendation
 # subjectAltName=email:copy
-subjectAltName=${ENV::ALTNAME}
+# subjectAltName=${ENV::ALTNAME}
 # Copy issuer details
 # issuerAltName=issuer:copy
 

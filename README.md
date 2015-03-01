@@ -9,6 +9,8 @@ Tests 1-14 are tests of certificate validation.
 Test 20 is based on recommendations from bettercrypto.org on how
 to configure Apache HTTPD for a strong server. 
 
+The main site is at http://tls-o-matic.com
+
 About the scripts
 -----------------
 These scripts allow you to make certificates for test purposes. The
@@ -107,6 +109,7 @@ Crypto and SSL/TLS protocol tests
 Possible future cert tests
 --------------------------
 	- Cert used for HTTP with no subject CN and only http URI's as sAN names
+	- Site with incomplete or bad intermediate cert chain
 
 Other TLS test ideas
 --------------------

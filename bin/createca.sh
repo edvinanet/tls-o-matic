@@ -1,14 +1,21 @@
 #!/bin/sh
 # Create a CA
-DOMAIN=tls-o-matic.com
+if test -z $1
+then
+DOMAIN=tls.example.com
+else
+DOMAIN=$1
+fi
 
+mkdir -p ca
 cd ca
-mkdir certs private newcerts
+mkdir -p certs private newcerts
 echo 1000 > serial
 touch index.txt
-export COMMONNAME=CA for $DOMAIN
-export ALTNAME=$DOMAIN
-# Create keys
+export COMMONNAME="CA for $DOMAIN"
+export ALTNAME=email:info@$DOMAIN
+cd ..
+# Create keys and sign the cert in one move
 openssl req -new -x509 -days 2500 -extensions v3_ca -nodes \
--keyout private/cakey.pem -out cacert.pem \
--config ../etc/openssl.cnf
+-keyout ca/private/cacert.key -out ca/cacert.pem \
+-config etc/openssl.cnf

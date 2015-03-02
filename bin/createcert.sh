@@ -70,6 +70,7 @@ if test $1 = weird; then
 fi
 if test $1 = evil; then
 	echo "Mohahahaha 👿 "
+	CACERT=ca/bad/cacert.pem
 	OPTION="$OPTION  -name CA_bad"  
 	ERROR=0
 fi
@@ -184,6 +185,11 @@ openssl req -new -nodes $REQOPTION \
 	-config etc/openssl.cnf
 
 #Sign request And create cert
+#echo Command: openssl ca  $OPTION \
+	#-cert $CACERT \
+	#-config etc/openssl.cnf \
+	#-out "ca/certs/$FILENAME.cert" \
+	#-infiles "ca/request/$FILENAME.req"
 openssl ca  $OPTION \
 	-cert $CACERT \
 	-config etc/openssl.cnf \

@@ -110,6 +110,12 @@ Possible future cert tests
 --------------------------
 	- Cert used for HTTP with no subject CN and only http URI's as sAN names
 	- Site with incomplete or bad intermediate cert chain
+	- weak-wildcard certs ( CN="*" )  (DSL)
+	- Wrong version certificates - Cert version 0x01 (v2) or 0x03 (v4) certificates. Not sure if v4 should be invalid as that makes your test broken in the future, sometime. (DSL)
+	- MD5 intermediate in chain (invalid) (DSL)
+	- 1024 bit intermediate in chain (invalid) (DSL)
+	- Two certificates in a chain with the same serial number (invalid) (DSL)
+	- Issuer mismatch in the chain ( RFC 5280, Section 6.1.3) (DSL)
 
 Other TLS test ideas
 --------------------

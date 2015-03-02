@@ -132,3 +132,9 @@ Installing
 You can install this on your own system - check out in /usr/local/tls-o-matic
 To test another domain you can change domain in the Makefile. Not sure
 if this works in all scripts yet.
+
+Credits
+-------
+- Jakob Schlyter provided good feedback
+- D Spindel Ljungmark contributed new test ideas
+

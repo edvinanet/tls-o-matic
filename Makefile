@@ -39,7 +39,7 @@ killall:
 	make -C httpd/test11 kill
 	make -C httpd/test12 kill
 	make -C httpd/test13 kill
-	#	make -C httpd/test14
+	make -C httpd/test14 kill
 	make -C httpd/test15 kill
 	make -C httpd/test20 kill
 	make -C httpd/test21 kill
@@ -59,7 +59,7 @@ web:
 	make -C httpd/test11
 	make -C httpd/test12
 	make -C httpd/test13
-	#	make -C httpd/test14
+	make -C httpd/test14
 	make -C httpd/test15
 	make -C httpd/test20
 	make -C httpd/test21

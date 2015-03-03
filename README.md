@@ -4,28 +4,27 @@ TLS-O-MATIC.COM
 Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
 Meetup in Stockholm in March 2015.
 
-Tests 1-14 are tests of certificate validation.
+Tests 1-15 are tests of certificate validation.
 
 Test 20 is based on recommendations from bettercrypto.org on how
 to configure Apache HTTPD for a strong server. 
+Test 21 is a test of weak crypto. An application that wants to claim
+to be secure today should not connect to a server configured like this.
 
-The main site is at http://tls-o-matic.com
+The main site is at http://www.tls-o-matic.com
 
 About the scripts
 -----------------
 These scripts allow you to make certificates for test purposes. The
 certificates will all share a common CA root so that everyone running
 these scripts can have interoperable certificates. WARNING - these
-certificates are totally insecure and are for test purposes only. All
-the CA created by this script share the same private key to
-facilitate interoperation testing, but this totally breaks the
-security since the private key of the CA is well known.
+certificates are totally insecure and are for test purposes only. 
 
 Things to go through before and during tests
 --------------------------------------------
 	- What is CN - Common Name
-	- What about all the other stuff in the cert?
 	- What is SubjectAltName
+	- What about all the other stuff in the cert?
 	- Selfsigned certificates, CA signed certs - DV, EV
 
 Certificate and CA Tests

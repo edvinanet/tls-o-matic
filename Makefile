@@ -12,6 +12,14 @@ OPENSSL=/opt/local/bin/openssl
 
 export COMPANYNAME
 
+all:
+	@echo "Targets:"
+	@echo " clean    Remove all certs and keys"
+	@echo " web      Start all web servers"
+	@echo " killall  Stop all http servers"
+	@echo " certs    Create all the certificates"
+	@echo " test<x>  Certificates for test #1 - like \"make test1\" "
+
 clean:
 	rm -rf ca/cacert.pem ca/bad/cacert.pem ca/private/cacert.key ca/bad/private/cacert.key
 	rm -rf certs/*

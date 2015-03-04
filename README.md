@@ -110,6 +110,9 @@ Possible future cert tests
 --------------------------
 	- Cert used for HTTP with no subject CN and only http URI's as sAN names
 	- Site with incomplete or bad intermediate cert chain
+	- Hostname in CN only - check CAB Forum rules
+	- Unknown extension in cert, marked critical (browser should reject)
+	- EC keys
 
 Other TLS test ideas
 --------------------

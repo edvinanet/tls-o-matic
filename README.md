@@ -122,6 +122,8 @@ Possible future cert tests
 Other TLS test ideas
 --------------------
 	- Site that only offers null crypto
+	- Build the three reference profiles from Mozilla
+	  https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_configurations
 
 API tests
 ---------

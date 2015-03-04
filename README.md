@@ -118,6 +118,7 @@ Possible future cert tests
 	- 1024 bit intermediate in chain (invalid) (DSL)
 	- Two certificates in a chain with the same serial number (invalid) (DSL)
 	- Issuer mismatch in the chain ( RFC 5280, Section 6.1.3) (DSL)
+	- cert for IP address, not host name. What is the expected outcome? CA/Browser forum doesn't like it.
 
 Other TLS test ideas
 --------------------

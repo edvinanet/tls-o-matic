@@ -4,28 +4,27 @@ TLS-O-MATIC.COM
 Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
 Meetup in Stockholm in March 2015.
 
-Tests 1-14 are tests of certificate validation.
+Tests 1-15 are tests of certificate validation.
 
 Test 20 is based on recommendations from bettercrypto.org on how
 to configure Apache HTTPD for a strong server. 
+Test 21 is a test of weak crypto. An application that wants to claim
+to be secure today should not connect to a server configured like this.
 
-The main site is at http://tls-o-matic.com
+The main site is at http://www.tls-o-matic.com
 
 About the scripts
 -----------------
 These scripts allow you to make certificates for test purposes. The
 certificates will all share a common CA root so that everyone running
 these scripts can have interoperable certificates. WARNING - these
-certificates are totally insecure and are for test purposes only. All
-the CA created by this script share the same private key to
-facilitate interoperation testing, but this totally breaks the
-security since the private key of the CA is well known.
+certificates are totally insecure and are for test purposes only. 
 
 Things to go through before and during tests
 --------------------------------------------
 	- What is CN - Common Name
-	- What about all the other stuff in the cert?
 	- What is SubjectAltName
+	- What about all the other stuff in the cert?
 	- Selfsigned certificates, CA signed certs - DV, EV
 
 Certificate and CA Tests
@@ -113,6 +112,12 @@ Possible future cert tests
 	- Hostname in CN only - check CAB Forum rules
 	- Unknown extension in cert, marked critical (browser should reject)
 	- EC keys
+	- weak-wildcard certs ( CN="*" )  (DSL)
+	- Wrong version certificates - Cert version 0x01 (v2) or 0x03 (v4) certificates. Not sure if v4 should be invalid as that makes your test broken in the future, sometime. (DSL)
+	- MD5 intermediate in chain (invalid) (DSL)
+	- 1024 bit intermediate in chain (invalid) (DSL)
+	- Two certificates in a chain with the same serial number (invalid) (DSL)
+	- Issuer mismatch in the chain ( RFC 5280, Section 6.1.3) (DSL)
 
 Other TLS test ideas
 --------------------
@@ -129,3 +134,10 @@ Installing
 You can install this on your own system - check out in /usr/local/tls-o-matic
 To test another domain you can change domain in the Makefile. Not sure
 if this works in all scripts yet.
+
+Credits
+-------
+- Jakob Schlyter provided good feedback
+- D Spindel Ljungmark contributed new test ideas
+- Tomas Gustavsson, Primekey for some new ideas and feedback
+

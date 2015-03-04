@@ -12,6 +12,19 @@ OPENSSL=/opt/local/bin/openssl
 
 export COMPANYNAME
 
+all:
+	@echo "Targets:"
+	@echo " clean    Remove all certs and keys"
+	@echo " web      Start all web servers"
+	@echo " killall  Stop all http servers"
+	@echo " certs    Create all the certificates"
+	@echo " test<x>  Certificates for test #1 - like \"make test1\" "
+
+clean:
+	rm -rf ca/cacert.pem ca/bad/cacert.pem ca/private/cacert.key ca/bad/private/cacert.key
+	rm -rf certs/*
+	rm -rf ca/index.*
+
 killall:
 	make -C httpd/test1 kill
 	make -C httpd/test2 kill
@@ -26,7 +39,7 @@ killall:
 	make -C httpd/test11 kill
 	make -C httpd/test12 kill
 	make -C httpd/test13 kill
-	#	make -C httpd/test14
+	make -C httpd/test14 kill
 	make -C httpd/test15 kill
 	make -C httpd/test20 kill
 	make -C httpd/test21 kill
@@ -46,7 +59,7 @@ web:
 	make -C httpd/test11
 	make -C httpd/test12
 	make -C httpd/test13
-	#	make -C httpd/test14
+	make -C httpd/test14
 	make -C httpd/test15
 	make -C httpd/test20
 	make -C httpd/test21
@@ -67,31 +80,45 @@ ca/bad/cacert.pem:
 	bin/createevilca.sh
 	@echo "✅  done!"
 
-intermediate: ca/cacert.pem
+intermediate: certs/TLS-o-matic-intermediate-1.cert certs/TLS-o-matic-intermediate-2.cert certs/TLS-o-matic-intermediate-3.cert \
+	certs/TLS-o-matic-intermediate-4.cert	certs/TLS-o-matic-intermediate-5.cert
 	# Create three intermediate certificates under the primary cert
-	# Needs to be run after 
-	@echo " "
+	@echo "✅  done!"
+
+certs/TLS-o-matic-intermediate-1.cert: ca/cacert.pem
 	@echo " "
 	@echo "==> First intermediate cert "
 	COMPANYNAME="Intermediate 1 $(domain)" \
 	bin/createcert.sh intermed ca/cacert.pem TLS-o-matic-intermediate-1
-	@echo " "
+
+certs/TLS-o-matic-intermediate-2.cert: certs/TLS-o-matic-intermediate-1.cert
 	@echo " "
 	@echo "==> Second intermediate cert "
 	COMPANYNAME="Intermediate 2 $(domain)" \
 	bin/createcert.sh intermed certs/TLS-o-matic-intermediate-1.cert	TLS-o-matic-intermediate-2
-	@echo " "
+
+certs/TLS-o-matic-intermediate-3.cert: certs/TLS-o-matic-intermediate-2.cert
 	@echo " "
 	@echo "==> Third intermediate cert "
 	COMPANYNAME="Intermediate 3 $(domain)" \
 	bin/createcert.sh intermed certs/TLS-o-matic-intermediate-2.cert	TLS-o-matic-intermediate-3
+
+certs/TLS-o-matic-intermediate-4.cert: certs/TLS-o-matic-intermediate-3.cert
 	@echo " "
 	@echo "==> Fourth intermediate cert "
 	COMPANYNAME="Intermediate 4 $(domain)" \
-	bin/createcert.sh intermed certs/TLS-o-matic-intermediate-4.cert	TLS-o-matic-intermediate-4
-	@echo "✅  done!"
+	bin/createcert.sh intermed certs/TLS-o-matic-intermediate-3.cert	TLS-o-matic-intermediate-4
+
+certs/TLS-o-matic-intermediate-5.cert: certs/TLS-o-matic-intermediate-4.cert
+	@echo " "
+	@echo "==> Fifth intermediate cert "
+	COMPANYNAME="Intermediate 5 $(domain)" \
+	bin/createcert.sh intermed certs/TLS-o-matic-intermediate-4.cert	TLS-o-matic-intermediate-5
+
 
 test1:  ca/cacert.pem
+	@echo " "
+	@echo "==> Test 1 "
 	# Normal cert, with SAN for domain
 	COMPANYNAME="Arrogant Security Consultants LLC" \
 	bin/createcert.sh cert test1.$(domain) test1.$(domain)
@@ -102,6 +129,8 @@ curltest1: ca/cacert.pem
 	curl --cacert ca/cacert.pem https://test1.tls-o-matic.com/
 
 test2:  ca/cacert.pem
+	@echo " "
+	@echo "==> Test 2 "
 	# Cert with no SAN, bad CN
 	COMPANYNAME="Another one bites the dust Inc" \
 	bin/createcert.sh nosan test2.tls-o-matic.null
@@ -114,6 +143,8 @@ curltest2: ca/cacert.pem
 
 
 test3:  ca/cacert.pem
+	@echo " "
+	@echo "==> Test 3 "
 	# Cert with bad SAN
 	COMPANYNAME="Lucy In the Sky with Certificates" \
 	bin/createcert.sh cert test3.$(domain) test3.tls-o-matic.null
@@ -155,17 +186,16 @@ test9:	ca/cacert.pem
 	bin/createcert.sh md5 test9.$(domain) $(domain)
 	@echo "✅  done!"
 
-test10:	ca/cacert.pem
+test10:	certs/TLS-o-matic-intermediate-1.cert
 	# intermediate cert under the first one 
 	# ca -> intermediate 1 -> test10
 	# depends on running "make intermediate" first
 	COMPANYNAME="Give it UP" \
-	bin/createcert.sh intercert test10.$(domain) $(domain)
+	bin/createcert.sh intercert certs/TLS-o-matic-intermediate-1.cert test10.$(domain) 
 	@echo "✅  done!"
 
-test11:	ca/cacert.pem
+test11:	certs/TLS-o-matic-intermediate-3.cert
 	# intermediate cert 3
-	# depends on running "make intermediate" first
 	# ca -> intermediate 1 -> intermediate 2 -> intermediate 3 -> cert
 	COMPANYNAME="Do it yourself" \
 	bin/createcert.sh intercert certs/TLS-o-matic-intermediate-3.cert test11.$(domain)
@@ -192,7 +222,7 @@ test14:	ca/cacert.pem
 	bin/createcert.sh weird test14.$(domain)  test14.$(domain)
 	@echo "✅  done!"
 
-test:	ca/cacert.pem
+test15:	ca/cacert.pem
 	# TLS SNI tests - test15a, test15b, test15 (default server)
 	# ca -> intermediate 1 -> test15
 	COMPANYNAME="TLS Hosting Company" \

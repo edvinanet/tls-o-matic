@@ -43,6 +43,7 @@ killall:
 	make -C httpd/test15 kill
 	make -C httpd/test20 kill
 	make -C httpd/test21 kill
+	make -C httpd/test22 kill
 	@echo "✅  done!"
 
 web:
@@ -63,10 +64,12 @@ web:
 	make -C httpd/test15
 	make -C httpd/test20
 	make -C httpd/test21
+	make -C httpd/test22
 	@echo "✅  done!"
 
 certs: ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
-	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21
+	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21 \
+	test22
 	@echo "✅  done!"
 
 ca:	ca/cacert.pem
@@ -246,6 +249,12 @@ test21:	ca/cacert.pem
 	# weak cert. Server with SSL only (no TLS)
 	COMPANYNAME="King Arthur Medival Security Experts INC" \
 	bin/createcert.sh md5 test21.$(domain) test21.$(domain)
+	@echo "✅  done!"
+
+test22:	ca/cacert.pem
+	# Normal cert
+	COMPANYNAME="NCC 1701 Security Department LLC" \
+	bin/createcert.sh cert test22.$(domain) test22.$(domain)
 	@echo "✅  done!"
 
 

@@ -24,6 +24,7 @@ Things to go through before and during tests
 --------------------------------------------
 	- What is CN - Common Name
 	- What is SubjectAltName
+	- What is SNI - server name indication
 	- What about all the other stuff in the cert?
 	- Selfsigned certificates, CA signed certs - DV, EV
 
@@ -126,11 +127,18 @@ Other TLS test ideas
 	- Build the three reference profiles from Mozilla
 	  https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_configurations
 
-API tests
----------
+API tests (ideas)
+-----------------
 	- Possibly add a json payload in return for javascript/app testing
 	- Possibly add a XML payload in return for app testing
 
+Feedback and bugs
+-----------------
+Please use the Github bug tracker. By reporting issues you help us. It's
+not for support though. If you think a mailing list or some kind of forum
+is a good idea - please let us know!
+
+https://github.com/edvinanet/tls-o-matic/issues
 
 Installing
 ----------
@@ -140,7 +148,15 @@ if this works in all scripts yet.
 
 Credits
 -------
+- Olle E. Johansson created the tests and the scripts
+- Many participants at SIPit helped with the original SIP tests
 - Jakob Schlyter provided good feedback
 - D Spindel Ljungmark contributed new test ideas
 - Tomas Gustavsson, Primekey for some new ideas and feedback
+
+
+Contacting us
+-------------
+info@edvina.net
+http://edvina.net
 

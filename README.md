@@ -4,12 +4,13 @@ TLS-O-MATIC.COM
 Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
 Meetup in Stockholm in March 2015.
 
-Tests 1-15 are tests of certificate validation.
+Tests 1-16 are tests of certificate validation.
 
 Test 20 is based on recommendations from bettercrypto.org on how
 to configure Apache HTTPD for a strong server. 
 Test 21 is a test of weak crypto. An application that wants to claim
 to be secure today should not connect to a server configured like this.
+Test 22 is focusing on modern Perfect Forward Secrecy encryption.
 
 The main site is at http://www.tls-o-matic.com
 
@@ -89,6 +90,12 @@ Certificate and CA Tests
 	- https://test15a.tls-o-matic.com:415
 	- https://test15b.tls-o-matic.com:415
 
+16.	Test of International domain names in certificates
+	SAN certificate with IDNA names. One server, one cert with many names
+	- https://test16.tls-o-matic.com:416
+	- https://😎..tls-o-matic.com:416
+	- https://blåbärsmjölk.tls-o-matic.com:416
+
 
 
 
@@ -103,6 +110,12 @@ Crypto and SSL/TLS protocol tests
 	the 90's. Good old times are here again.
 	Browsers does not accept cert or crypto.
 	- https://test21.tls-o-matic.com:421
+
+22.	This server follows Ivan Ristic's configuration in this blog:
+	http://blog.ivanristic.com/2013/08/configuring-apache-nginx-and-openssl-for-forward-secrecy.html
+	It is configured without RC4 support.
+	Old clients will not be able to connect.
+	- https://test22.tls-o-matic.com:422
 
 
 Possible future cert tests

@@ -225,7 +225,7 @@ test14:	ca/cacert.pem
 	bin/createcert.sh weird test14.$(domain)  test14.$(domain)
 	@echo "✅  done!"
 
-test15:	ca/cacert.pem
+test16:	ca/cacert.pem certs/TLS-o-matic-intermediate-1.cert 
 	# TLS SNI tests - test15a, test15b, test15 (default server)
 	# ca -> intermediate 1 -> test15
 	COMPANYNAME="TLS Hosting Company" \
@@ -238,6 +238,14 @@ test15:	ca/cacert.pem
 	bin/createcert.sh intercert certs/TLS-o-matic-intermediate-1.cert test15b.$(domain)
 	@echo "   ☑️   done with cert 3/3!"
 	@echo "✅  done!"
+
+test16: ca/cacert.pem 
+	# First domain with Swedish characters, second one with a cool smiley (UTF8 emoji)
+	# Domains encoded as following in DNS zone:
+	#	xn--blbrsmjlk-x2aj4s.test16     IN      CNAME   test.tls-o-matic.com.
+	#	xn--s28h.test16                 IN      CNAME   test.tls-o-matic.com.
+	COMPANYNAME="Smiley 😄  and cute animals 🐶  🐼  security LLC"  \
+	bin/createcert.sh cert test16.$(domain) test16.$(domain),DNS:😎..$(domain),DNS:blåbärsmjölk.$(domain),URI:sip:info@$(domain)
 
 test20:	ca/cacert.pem
 	# Normal cert, with SAN for domain - the test is for crypto and TLS versions (Bettercrypto.org)

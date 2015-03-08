@@ -94,7 +94,7 @@ Certificate and CA Tests
 16.	Test of International domain names in certificates
 	SAN certificate with IDNA names. One server, one cert with many names
 	- https://test16.tls-o-matic.com:416
-	- https://😎..tls-o-matic.com:416
+	- https://😎.tls-o-matic.com:416
 	- https://blåbärsmjölk.tls-o-matic.com:416
 
 

@@ -52,8 +52,11 @@ killall:
 	make -C httpd/test13 kill
 	make -C httpd/test14 kill
 	make -C httpd/test15 kill
+	make -C httpd/test16 kill
+	make -C httpd/test17 kill
 	make -C httpd/test20 kill
 	make -C httpd/test21 kill
+	make -C httpd/test22 kill
 	make -C httpd/test30 kill
 	@echo "✅  done!"
 
@@ -73,8 +76,11 @@ web:
 	make -C httpd/test13
 	make -C httpd/test14
 	make -C httpd/test15
+	make -C httpd/test16
+	make -C httpd/test17
 	make -C httpd/test20
 	make -C httpd/test21
+	make -C httpd/test22
 	make -C httpd/test30
 	@echo "✅  done!"
 
@@ -91,6 +97,11 @@ certs:  ca/ec/cacert.pem ca/cacert.pem ca/bad/cacert.pem intermediate test1 test
 #	We also have five intermediate certificate authorities under the Standard CA, based on the one subsidary
 #
 ca:	ca/cacert.pem ca/ec/cacert.pem ca/bad/cacert.pem
+	@echo "✅  done!"
+
+certs: ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
+	test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test17 test20 test21 \
+	test22
 	@echo "✅  done!"
 
 ca/ec/cacert.pem:
@@ -275,9 +286,9 @@ test14:	ca/cacert.pem
 	bin/createcert.sh weird test14.$(domain)  test14.$(domain)
 	@echo "✅  done!"
 
-test15:	ca/cacert.pem
+test15:	ca/cacert.pem certs/TLS-o-matic-intermediate-1.cert 
 	# TLS SNI tests - test15a, test15b, test15 (default server)
-	# ca -> intermediate 1 -> test15
+	@# ca -> intermediate 1 -> test15
 	COMPANYNAME="TLS Hosting Company" \
 	bin/createcert.sh intercert certs/TLS-o-matic-intermediate-1.cert test15.$(domain) 
 	@echo "   ☑️   done with cert 1/3!"
@@ -289,6 +300,15 @@ test15:	ca/cacert.pem
 	@echo "   ☑️   done with cert 3/3!"
 	@echo "✅  done!"
 
+test16: ca/cacert.pem 
+	@# First domain with Swedish characters, second one with a cool smiley (UTF8 emoji)
+	@# RFC 6125 says that IDNA DNS names is represented in puny code
+ 	@#
+	@# Domains encoded as following in DNS zone:
+	@#	xn--blbrsmjlk-x2aj4s.test16     IN      CNAME   test.tls-o-matic.com.
+	@#	xn--s28h.test16                 IN      CNAME   test.tls-o-matic.com.
+	COMPANYNAME="Smiley 😄  and cute animals 🐶  🐼  security LLC"  \
+	bin/createcert.sh cert test16.$(domain) test16.$(domain),DNS:xn--s28h.$(domain),DNS:xn--blbrsmjlk-x2aj4s.$(domain),URI:sip:info@xn--blbrsmjlk-x2aj4s.$(domain)
 
 # This CERT has two URI's in the subject alt name fields
 test17:  ca/cacert.pem
@@ -310,6 +330,13 @@ test21:	ca/cacert.pem
 	bin/createcert.sh md5 test21.$(domain) test21.$(domain)
 	@echo "✅  done!"
 
+test22:	ca/cacert.pem
+	# Normal cert
+	COMPANYNAME="NCC 1701 Security Department LLC" \
+	bin/createcert.sh cert test22.$(domain) test22.$(domain)
+	@echo "✅  done!"
+
+
 # --- Elliptic curve certs
 
 test30:
@@ -330,7 +357,6 @@ test31:
 #test33:
 	# EC CA with strange curve
 
-
 alltests:	ca/cacert.pem	ca/bad/cacert.pem
 	@echo `date` > /tmp/testresult
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test1.$(domain):443 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
@@ -349,5 +375,7 @@ alltests:	ca/cacert.pem	ca/bad/cacert.pem
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test13.$(domain):413 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test14.$(domain):414 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test15.$(domain):415 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test16.$(domain):416 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test17.$(domain):417 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test20.$(domain):420 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "✅  done! Check /tmp/testresult"

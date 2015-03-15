@@ -4,12 +4,13 @@ TLS-O-MATIC.COM
 Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
 Meetup in Stockholm in March 2015.
 
-Tests 1-15 are tests of certificate validation.
+Tests 1-16 are tests of certificate validation.
 
 Test 20 is based on recommendations from bettercrypto.org on how
 to configure Apache HTTPD for a strong server. 
 Test 21 is a test of weak crypto. An application that wants to claim
 to be secure today should not connect to a server configured like this.
+Test 22 is focusing on modern Perfect Forward Secrecy encryption.
 
 The main site is at http://www.tls-o-matic.com
 
@@ -90,6 +91,12 @@ Certificate and CA Tests
 	- https://test15a.tls-o-matic.com:415
 	- https://test15b.tls-o-matic.com:415
 
+16.	Test of International domain names in certificates
+	SAN certificate with IDNA names. One server, one cert with many names
+	- https://test16.tls-o-matic.com:416
+	- https://😎.test16.tls-o-matic.com:416
+	- https://blåbärsmjölk.test16.tls-o-matic.com:416
+
 17.	Test of SAN. The server name is in the Common Name but not in the SAN.
 	If there is a list of SAN entries, a client should not check the common name.
 	This test should fail.
@@ -110,6 +117,12 @@ Crypto and SSL/TLS protocol tests
 	Browsers does not accept cert or crypto.
 	- https://test21.tls-o-matic.com:421
 
+22.	This server follows Ivan Ristic's configuration in this blog:
+	http://blog.ivanristic.com/2013/08/configuring-apache-nginx-and-openssl-for-forward-secrecy.html
+	It is configured without RC4 support.
+	Old clients will not be able to connect.
+	- https://test22.tls-o-matic.com:422
+
 30.	The CA certificate in this test is using Elliptic Curve Key exchange instead of
 	RSA, as is the classical key pair technology used for certificates. 
 	The server use RSA key pair, so this is a hybrid certificate - a CA with
@@ -127,9 +140,7 @@ Possible future cert tests
 --------------------------
 	- Cert used for HTTP with no subject CN and only http URI's as sAN names
 	- Site with incomplete or bad intermediate cert chain
-	- Hostname in CN only - check CAB Forum rules
 	- Unknown extension in cert, marked critical (browser should reject)
-	- EC keys
 	- weak-wildcard certs ( CN="*" )  (DSL)
 	- Wrong version certificates - Cert version 0x01 (v2) or 0x03 (v4) certificates. Not sure if v4 should be invalid as that makes your test broken in the future, sometime. (DSL)
 	- MD5 intermediate in chain (invalid) (DSL)
@@ -137,6 +148,7 @@ Possible future cert tests
 	- Two certificates in a chain with the same serial number (invalid) (DSL)
 	- Issuer mismatch in the chain ( RFC 5280, Section 6.1.3) (DSL)
 	- cert for IP address, not host name. What is the expected outcome? CA/Browser forum doesn't like it.
+	- cert with null in host name
 
 Other TLS test ideas
 --------------------

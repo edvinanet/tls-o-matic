@@ -169,7 +169,7 @@ test1:  ca/cacert.pem
 
 curltest1: ca/cacert.pem
 	# Successful test
-	curl --cacert ca/cacert.pem https://test1.tls-o-matic.com/
+	curl --cacert ca/cacert.pem https://test1.$(domain)/
 
 #	Cert with no SAN, bad CN
 test2:  ca/cacert.pem
@@ -182,7 +182,7 @@ test2:  ca/cacert.pem
 curltest2: ca/cacert.pem
 	# Successful test
 	@echo "Wrong certificate - bad CN. Should fail. 🚫 "
-	curl --cacert ca/cacert.pem https://test2.tls-o-matic.com:402/
+	curl --cacert ca/cacert.pem https://test2.$(domain):402/
 
 
 #	Cert with bad SAN
@@ -195,7 +195,7 @@ test3:  ca/cacert.pem
 
 curltest3: ca/cacert.pem
 	@echo "Certificate with bad subject alt name - SAN.  Should fail 🚫 "
-	curl --cacert ca/cacert.pem https://test3.tls-o-matic.com:403/
+	curl --cacert ca/cacert.pem https://test3.$(domain):403/
 
 test4:  ca/cacert.pem
 	# Wildcards
@@ -205,7 +205,7 @@ test4:  ca/cacert.pem
 
 curltest4: ca/cacert.pem
 	@echo "Certificate with wildcard names. Should succeed ✅ "
-	curl --cacert ca/cacert.pem https://test4.tls-o-matic.com:404/
+	curl --cacert ca/cacert.pem https://test4.$(domain):404/
 
 
 test5:	ca/cacert.pem
@@ -217,7 +217,7 @@ test5:	ca/cacert.pem
 # 	This shows that local clocks is essential for TLS. Clients need a sense of time.
 curltest5: ca/cacert.pem
 	@echo "Certificate from the future (validity is not yet valid).  Should fail 🚫 "
-	curl --cacert ca/cacert.pem https://test5.tls-o-matic.com:405/
+	curl --cacert ca/cacert.pem https://test5.$(domain):405/
 
 
 test6:	ca/cacert.pem
@@ -229,7 +229,7 @@ test6:	ca/cacert.pem
 # 	This shows that local clocks is essential for TLS. Clients need a sense of time.
 curltest6: ca/cacert.pem
 	@echo "Certificate from the past (validity is expired).  Should fail 🚫 "
-	curl --cacert ca/cacert.pem https://test6.tls-o-matic.com:406/
+	curl --cacert ca/cacert.pem https://test6.$(domain):406/
 
 test7:	ca/bad/cacert.pem
 	# Certificate from bad CA
@@ -239,7 +239,7 @@ test7:	ca/bad/cacert.pem
 
 curltest7: ca/bad/cacert.pem
 	@echo "Certificate signed by an unknown Certificate Authority.  Should fail 🚫 "
-	curl --cacert ca/cacert.pem https://test7.tls-o-matic.com:407/
+	curl --cacert ca/cacert.pem https://test7.$(domain):407/
 
 # This CERT also has a URI in the subject alt name fields
 test8:  ca/cacert.pem
@@ -248,11 +248,21 @@ test8:  ca/cacert.pem
 	bin/createcert.sh cert test8.$(domain) $(domain),DNS:test8.$(domain),URI:sip:info@$(domain)
 	@echo "✅  done!"
 
+curltest8: ca/bad/cacert.pem
+	@echo "A server that requires a client certificate. Curl based on OpenSSL doesn't handle this well."
+	@echo "It should fail - since you have no acceptable client certificate. 🚫 "
+	curl --cacert ca/cacert.pem https://test8.$(domain):408/
+
 test9:	ca/cacert.pem
 	# Certificate from md5 CA with 512 bits. Good old times.
 	COMPANYNAME="MD5 was good enough in the 90's" \
 	bin/createcert.sh md5 test9.$(domain) test9.$(domain)
 	@echo "✅  done!"
+
+curltest9: ca/cacert.pem
+	@echo "A server that is really old with an old-style cert that should not be accepted."
+	@echo "It should fail - since you have do want security 🚫 "
+	curl --cacert ca/cacert.pem https://test9.$(domain):409/
 
 test10:	certs/TLS-o-matic-intermediate-1.cert
 	# intermediate cert under the first one 
@@ -262,12 +272,22 @@ test10:	certs/TLS-o-matic-intermediate-1.cert
 	bin/createcert.sh intercert certs/TLS-o-matic-intermediate-1.cert test10.$(domain) 
 	@echo "✅  done!"
 
+curltest10: ca/cacert.pem
+	@echo "A server that offers an Intermediate CA certificate to bind the server cert to the CA"
+	@echo "Should succeed ✅ "
+	curl --cacert ca/cacert.pem https://test10.$(domain):410/
+
 test11:	certs/TLS-o-matic-intermediate-3.cert
 	# intermediate cert 3
 	# ca -> intermediate 1 -> intermediate 2 -> intermediate 3 -> cert
 	COMPANYNAME="Do it yourself" \
 	bin/createcert.sh intercert certs/TLS-o-matic-intermediate-3.cert test11.$(domain)
 	@echo "✅  done!"
+
+curltest11: ca/cacert.pem
+	@echo "A server that offers an Intermediate CA certificate to bind the server cert to the CA"
+	@echo "Should succeed ✅ "
+	curl --cacert ca/cacert.pem https://test10.$(domain):411/
 
 test12: ca/cacert.pem
 	#Many SANs
@@ -316,10 +336,24 @@ test16: ca/cacert.pem
 # This CERT has two URI's in the subject alt name fields
 test17:  ca/cacert.pem
 	# Certificate with the server name in CN, and not in SAN. Should fail.
+	# Don't let your client be fooled by all the SAN's
 	COMPANYNAME="Sweet Soul Music Inc" \
 	bin/createcert.sh cert test17.$(domain) DNS:test99.$(domain),URI:sip:info@$(domain),URI:https://test12.$(domain):412,URI:edvina://räksmörgås42#⚠️
 	@echo "✅  done!"
 
+test18:  ca/cacert.pem
+	# Certificate with wild card that should not work
+	#	test18.tls-o-matic.com
+	#	test18.anything.tls-o-matic.com
+	COMPANYNAME="Opposites Attract Joker Photography Inc" \
+	bin/createcert.sh cert t\*18.$(domain) DNS:test18.\*.$(domain),DNS:test\*.$(domain) test18.tls-o-matic.com
+	@echo "✅  done!"
+
+test19: ca/cacert.pem
+	# certificate that wants to match all
+	COMPANYNAME="Opposites Retract Bar & Barbecue Inc" \
+	bin/createcert.sh cert "Disregard" DNS:\*.$(domain),DNS:\*.example.com,DNS:\*.namn.se test19.tls-o-matic.com
+	@echo "✅  done!"
 
 test20:	ca/cacert.pem
 	# Normal cert, with SAN for domain - the test is for crypto and TLS versions (Bettercrypto.org)

@@ -1,9 +1,20 @@
-# $(domain)
+# 
 # Makefile for tls-o-matic self-tests
 # ===================================
 # Note: This is for test only. No certificate created should be used in
 #       in production. 
-# 
+#
+# If you want to run this yourself, set the domain to your domain.
+# Note: the web server configurations needs to be edited, there's no automation
+# 	there yet. All configurations default to tls-o-matic.com
+#
+# Web Servers
+# ===========
+# The web servers are running on Centos 6. I have two apache httpd's installed,
+# one is from the Centos distribution, using the standard Centos OpenSSL
+#
+# Some tests are using the latest OpenSSL and httpd - compiled and built on
+# the system itself.
 #
 domain:=tls-o-matic.com
 .PHONY=certs
@@ -41,9 +52,12 @@ killall:
 	make -C httpd/test13 kill
 	make -C httpd/test14 kill
 	make -C httpd/test15 kill
+	make -C httpd/test16 kill
+	make -C httpd/test17 kill
 	make -C httpd/test20 kill
 	make -C httpd/test21 kill
 	make -C httpd/test22 kill
+	make -C httpd/test30 kill
 	@echo "✅  done!"
 
 web:
@@ -62,21 +76,43 @@ web:
 	make -C httpd/test13
 	make -C httpd/test14
 	make -C httpd/test15
+	make -C httpd/test16
+	make -C httpd/test17
 	make -C httpd/test20
 	make -C httpd/test21
 	make -C httpd/test22
+	make -C httpd/test30
+	@echo "✅  done!"
+
+certs:  ca/ec/cacert.pem ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
+	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21 test30
+	@echo "✅  done!"
+
+#	We have three different CAs
+#	- Standard CA, RSA keys
+#		- with one subsidary Intermediate CA
+#	- Evil CA, RSA Keys
+#	- Standard CA, elliptic curve signatures
+#
+#	We also have five intermediate certificate authorities under the Standard CA, based on the one subsidary
+#
+ca:	ca/cacert.pem ca/ec/cacert.pem ca/bad/cacert.pem
 	@echo "✅  done!"
 
 certs: ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
-	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21 \
+	test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test17 test20 test21 \
 	test22
 	@echo "✅  done!"
 
-ca:	ca/cacert.pem
+ca/ec/cacert.pem:
+	@echo "===> Creating elliptic curve CA"
+	bin/create-ec-ca.sh $(domain)
+	@echo "✅  done!"
 
 ca/cacert.pem:
 	@echo "===> Creating normal CA"
 	bin/createca.sh $(domain)
+	@echo "✅  done!"
 
 ca/bad/cacert.pem:
 	@echo "===> Creating evil CA"
@@ -131,27 +167,31 @@ curltest1: ca/cacert.pem
 	# Successful test
 	curl --cacert ca/cacert.pem https://test1.tls-o-matic.com/
 
+#	Cert with no SAN, bad CN
 test2:  ca/cacert.pem
 	@echo " "
 	@echo "==> Test 2 "
-	# Cert with no SAN, bad CN
 	COMPANYNAME="Another one bites the dust Inc" \
 	bin/createcert.sh nosan test2.tls-o-matic.null
 	@echo "✅  done!"
 
 curltest2: ca/cacert.pem
 	# Successful test
-	@echo "Wrong certificate - bad SAN"
+	@echo "Wrong certificate - bad CN. Should fail. 🚫 "
 	curl --cacert ca/cacert.pem https://test2.tls-o-matic.com:402/
 
 
+#	Cert with bad SAN
 test3:  ca/cacert.pem
 	@echo " "
 	@echo "==> Test 3 "
-	# Cert with bad SAN
 	COMPANYNAME="Lucy In the Sky with Certificates" \
 	bin/createcert.sh cert test3.$(domain) test3.tls-o-matic.null
 	@echo "✅  done!"
+
+curltest3: ca/cacert.pem
+	@echo "Certificate with bad subject alt name - SAN.  Should fail 🚫 "
+	curl --cacert ca/cacert.pem https://test3.tls-o-matic.com:403/
 
 test4:  ca/cacert.pem
 	# Wildcards
@@ -159,11 +199,22 @@ test4:  ca/cacert.pem
 	bin/createcert.sh cert \*.$(domain) \*.test.$(domain),DNS:\*.$(domain),DNS:\*.beta.$(domain)	test4.$(domain)
 	@echo "✅  done!"
 
+curltest4: ca/cacert.pem
+	@echo "Certificate with wildcard names. Should succeed ✅ "
+	curl --cacert ca/cacert.pem https://test4.tls-o-matic.com:404/
+
+
 test5:	ca/cacert.pem
 	# Future certificate
 	COMPANYNAME="Marty and Doc's Environmentally friendly cars" \
 	bin/createcert.sh future test5.$(domain) test5.$(domain)
 	@echo "✅  done!"
+
+# 	This shows that local clocks is essential for TLS. Clients need a sense of time.
+curltest5: ca/cacert.pem
+	@echo "Certificate from the future (validity is not yet valid).  Should fail 🚫 "
+	curl --cacert ca/cacert.pem https://test5.tls-o-matic.com:405/
+
 
 test6:	ca/cacert.pem
 	# Expired certificate
@@ -171,12 +222,22 @@ test6:	ca/cacert.pem
 	bin/createcert.sh expired test6.$(domain) test6.$(domain)
 	@echo "✅  done!"
 
+# 	This shows that local clocks is essential for TLS. Clients need a sense of time.
+curltest6: ca/cacert.pem
+	@echo "Certificate from the past (validity is expired).  Should fail 🚫 "
+	curl --cacert ca/cacert.pem https://test6.tls-o-matic.com:406/
+
 test7:	ca/bad/cacert.pem
 	# Certificate from bad CA
 	COMPANYNAME="We don't trust anyone" \
 	bin/createcert.sh evil test7.$(domain) test7.$(domain)
 	@echo "✅  done!"
 
+curltest7: ca/bad/cacert.pem
+	@echo "Certificate signed by an unknown Certificate Authority.  Should fail 🚫 "
+	curl --cacert ca/cacert.pem https://test7.tls-o-matic.com:407/
+
+# This CERT also has a URI in the subject alt name fields
 test8:  ca/cacert.pem
 	# Normal cert, with SAN for domain (test involves client cert)
 	COMPANYNAME="We Challenge You, Inc" \
@@ -186,7 +247,7 @@ test8:  ca/cacert.pem
 test9:	ca/cacert.pem
 	# Certificate from md5 CA with 512 bits. Good old times.
 	COMPANYNAME="MD5 was good enough in the 90's" \
-	bin/createcert.sh md5 test9.$(domain) $(domain)
+	bin/createcert.sh md5 test9.$(domain) test9.$(domain)
 	@echo "✅  done!"
 
 test10:	certs/TLS-o-matic-intermediate-1.cert
@@ -248,6 +309,14 @@ test16: ca/cacert.pem
 	COMPANYNAME="Smiley 😄  and cute animals 🐶  🐼  security LLC"  \
 	bin/createcert.sh cert test16.$(domain) test16.$(domain),DNS:xn--s28h.test16.$(domain),DNS:xn--blbrsmjlk-x2aj4s.test16.$(domain),URI:sip:info@xn--blbrsmjlk-x2aj4s.test16.$(domain)
 
+# This CERT has two URI's in the subject alt name fields
+test17:  ca/cacert.pem
+	# Certificate with the server name in CN, and not in SAN. Should fail.
+	COMPANYNAME="Sweet Soul Music Inc" \
+	bin/createcert.sh cert test17.$(domain) DNS:test99.$(domain),URI:sip:info@$(domain),URI:https://test12.$(domain):412,URI:edvina://räksmörgås42#⚠️
+	@echo "✅  done!"
+
+
 test20:	ca/cacert.pem
 	# Normal cert, with SAN for domain - the test is for crypto and TLS versions (Bettercrypto.org)
 	COMPANYNAME="Cybercrime Security Experts INC" \
@@ -267,6 +336,25 @@ test22:	ca/cacert.pem
 	@echo "✅  done!"
 
 
+# --- Elliptic curve certs
+
+test30:
+	# Hybrid 1: An RSA certificate signed by an EC CA certificate
+	COMPANYNAME="Magical Mystery Tours (and security)" \
+	bin/createcert.sh ecrsacert test30.$(domain) test30.$(domain)
+	@echo "✅  done!"
+
+test31:
+	# Hybrid 2: EC certificate signed by RSA CA
+	COMPANYNAME="The Show Must Go On (and security) ☎️  " \
+	bin/createcert.sh eccert test31.$(domain) test31.$(domain)
+	@echo "✅  done!"
+
+#test32:
+	# Ec certificate signed by EC CA
+
+#test33:
+	# EC CA with strange curve
 
 alltests:	ca/cacert.pem	ca/bad/cacert.pem
 	@echo `date` > /tmp/testresult
@@ -286,5 +374,7 @@ alltests:	ca/cacert.pem	ca/bad/cacert.pem
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test13.$(domain):413 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test14.$(domain):414 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test15.$(domain):415 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test16.$(domain):416 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test17.$(domain):417 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test20.$(domain):420 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "✅  done! Check /tmp/testresult"

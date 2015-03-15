@@ -333,6 +333,14 @@ test16: ca/cacert.pem
 	COMPANYNAME="Smiley 😄  and cute animals 🐶  🐼  security LLC"  \
 	bin/createcert.sh cert test16.$(domain) test16.$(domain),DNS:xn--s28h.test16.$(domain),DNS:xn--blbrsmjlk-x2aj4s.test16.$(domain),URI:sip:info@xn--blbrsmjlk-x2aj4s.test16.$(domain)
 
+curltest16: ca/cacert.pem
+	@echo "Testing international domain names. Test one"
+	@echo "Should succeed ✅ "
+	curl --cacert ca/cacert.pem https://blåbärsmjölk.test16.$(domain):416/
+	@echo "Testing international domain names. Test two"
+	@echo "Maybe this should succeed ✅ "
+	curl --cacert ca/cacert.pem https://😎.test16.$(domain):416
+
 # This CERT has two URI's in the subject alt name fields
 test17:  ca/cacert.pem
 	# Certificate with the server name in CN, and not in SAN. Should fail.

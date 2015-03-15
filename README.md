@@ -4,13 +4,18 @@ TLS-O-MATIC.COM
 Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
 Meetup in Stockholm in March 2015.
 
-Tests 1-16 are tests of certificate validation.
+Tests 1-17 are tests of certificate validation.
 
 Test 20 is based on recommendations from bettercrypto.org on how
 to configure Apache HTTPD for a strong server. 
 Test 21 is a test of weak crypto. An application that wants to claim
 to be secure today should not connect to a server configured like this.
 Test 22 is focusing on modern Perfect Forward Secrecy encryption.
+
+Test 30-32 are of elliptic curve certificates
+
+Note that this repository will always be ahead of the web site. I test stuff
+here, then publish on the web site.
 
 The main site is at http://www.tls-o-matic.com
 

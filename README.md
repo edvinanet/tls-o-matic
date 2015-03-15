@@ -108,6 +108,7 @@ Certificate and CA Tests
 
 	- https://test17.tls-o-matic.com:417
 
+18.	Test of wildcard rules.
 
 
 Crypto and SSL/TLS protocol tests

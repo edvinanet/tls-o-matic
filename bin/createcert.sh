@@ -191,7 +191,7 @@ openssl req -new -nodes $REQOPTION \
 	#-out "ca/certs/$FILENAME.cert" \
 	#-infiles "ca/request/$FILENAME.req"
 openssl ca  $OPTION \
-	-cert $CACERT \
+	-utf8 -cert $CACERT \
 	-config etc/openssl.cnf \
 	-out "ca/certs/$FILENAME.cert" \
 	-infiles "ca/request/$FILENAME.req"

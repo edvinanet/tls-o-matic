@@ -98,9 +98,14 @@ Certificate and CA Tests
 
 16.	Test of International domain names in certificates
 	SAN certificate with IDNA names. One server, one cert with many names
+	If you click through, you will get more test links on the result page.
+
 	- https://test16.tls-o-matic.com:416
 	- https://😎.test16.tls-o-matic.com:416
 	- https://blåbärsmjölk.test16.tls-o-matic.com:416
+
+	Note: Github's URL parser doesn't parse URL's with international characters
+	as URL's and create clickable links. Bug.
 
 17.	Test of SAN. The server name is in the Common Name but not in the SAN.
 	If there is a list of SAN entries, a client should not check the common name.
@@ -109,6 +114,10 @@ Certificate and CA Tests
 	- https://test17.tls-o-matic.com:417
 
 18.	Test of wildcard rules.
+	- coming -
+
+19.	Test of wildcard rules.
+	- coming -
 
 
 Crypto and SSL/TLS protocol tests

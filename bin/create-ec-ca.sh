@@ -3,7 +3,7 @@
 DOMAIN=tls-o-matic.com
 mkdir -p ca/ec
 mkdir -p ca/ec/private
-mkdir -p ca/ec/newcerts ca/ec/certs
+mkdir -p ca/ec/newcerts ca/ec/certs ca/ec/request
 cd ca/ec
 echo 1000 > serial
 touch index.txt

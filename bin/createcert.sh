@@ -43,9 +43,10 @@ function help()
 	echo "              $0 intermed certname servername"
 	echo "    intercert  Create cert signed by intermediate cert"
 	echo "              $0 intercert certname servername"
-	echo "    inter3cert  Create cert signed by intermediate cert 3"
-	echo "    ecrsacert EC CA signing RSA cert - Default: SHA 256, subject alt name"
-	echo "    eccert    EC Cert - Default: SHA 256, subject alt name"
+	echo "    inter3cert   Create cert signed by intermediate cert 3"
+	echo "    ecrsacert    EC CA signing RSA cert - Default: SHA 256, subject alt name"
+	echo "    eccert       EC Cert - Default: SHA 256, subject alt name"
+	echo "    rsaeccert    EC Cert signed by RSA ca- Default: SHA 256, subject alt name"
 	echo ""
 	exit
 }
@@ -96,15 +97,23 @@ if test $1 = cert; then
 	ERROR=0
 fi
 if test $1 = eccert; then
+	echo "==> EC Cert signed by EC ca"
 	ERROR=0
 	CACERT=ca/ec/cacert.pem
 	OPTION="$OPTION  -name EC_CA_default"  
 	KEYTYPE=ec
 fi
 if test $1 = ecrsacert; then
+	echo "==> RSA Cert signed by EC ca "
 	ERROR=0
 	CACERT=ca/ec/cacert.pem
 	OPTION="$OPTION  -name EC_CA_default"  
+fi
+if test $1 = rsaeccert; then
+	echo "==> EC Cert signed by RSA ca "
+	ERROR=0
+	CACERT=ca/cacert.pem
+	KEYTYPE=ec
 fi
 if test $1 = intercert; then
 	# Sign with intermediate cert
@@ -215,6 +224,7 @@ openssl req -new -nodes $REQOPTION \
 
 #
 else
+# Keytype = RSA
 KEYFILE=ca/private/$FILENAME.key
 REQFILE=ca/request/$FILENAME.req
 openssl req -new -nodes $REQOPTION \
@@ -232,14 +242,14 @@ fi
 openssl ca  $OPTION \
 	-utf8 -cert $CACERT \
 	-config etc/openssl.cnf \
-	-out "ca/certs/$FILENAME.cert" \
+	-out "certs/$FILENAME.cert" \
 	-infiles "$REQFILE"
 
 # Move the files to the proper place
-if test -f ca/certs/$FILENAME.cert
+if test -f certs/$FILENAME.cert
 then
-	mv ca/certs/$FILENAME.cert certs
-	rm ca/request/$FILENAME.req
+	rm -rf ca/request/$FILENAME.req
+	rm -rf ca/ec/request/$FILENAME.req
 fi
 if test -f $KEYFILE
 then

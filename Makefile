@@ -338,16 +338,16 @@ test22:	ca/cacert.pem
 
 # --- Elliptic curve certs
 
-test30:
+test30: ca/ec/cacert.pem
 	# Hybrid 1: An RSA certificate signed by an EC CA certificate
 	COMPANYNAME="Magical Mystery Tours (and security)" \
 	bin/createcert.sh ecrsacert test30.$(domain) test30.$(domain)
 	@echo "✅  done!"
 
-test31:
+test31: ca/cacert.pem
 	# Hybrid 2: EC certificate signed by RSA CA
 	COMPANYNAME="The Show Must Go On (and security) ☎️  " \
-	bin/createcert.sh eccert test31.$(domain) test31.$(domain)
+	bin/createcert.sh rsaeccert test31.$(domain) test31.$(domain)
 	@echo "✅  done!"
 
 #test32:

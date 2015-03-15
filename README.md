@@ -130,21 +130,6 @@ Crypto and SSL/TLS protocol tests
 
 Elliptic Curve certificate and key tests
 ----------------------------------------
-20.	Not a certificate test. This server has no SSLv2 or SSLv3 and only supports
-	strong crypto algorithms. Based on recommendations from http://bettercrypto.org
-	- https://test20.tls-o-matic.com:420
-
-21.	Not a certificate test. This server has only SSLv2 or SSLv3 and only supports
-	weak crypto algorithms. Based on recommendations from Netscape Communication in 
-	the 90's. Good old times are here again.
-	Browsers does not accept cert or crypto.
-	- https://test21.tls-o-matic.com:421
-
-22.	This server follows Ivan Ristic's configuration in this blog:
-	http://blog.ivanristic.com/2013/08/configuring-apache-nginx-and-openssl-for-forward-secrecy.html
-	It is configured without RC4 support.
-	Old clients will not be able to connect.
-	- https://test22.tls-o-matic.com:422
 
 30.	The CA certificate in this test is using Elliptic Curve Key exchange instead of
 	RSA, as is the classical key pair technology used for certificates. 
@@ -160,20 +145,6 @@ Elliptic Curve certificate and key tests
 	- Not active yet -
 	- https://test32.tls-o-matic.com:432
 
-
-30.	The CA certificate in this test is using Elliptic Curve Key exchange instead of
-	RSA, as is the classical key pair technology used for certificates. 
-	The server use RSA key pair, so this is a hybrid certificate - a CA with
-	Elliptic curve and a server with RSA.
-	- https://test30.tls-o-matic.com:430
-
-31.	This is another hybrid certificate - a CA using RSA keys and a server using
-	elliptic curve technology.
-	- https://test31.tls-o-matic.com:431
-
-32.	This server and CA both use elliptic curve technology. Non-hybrid, pure elliptic curve
-	- Not active yet -
-	- https://test32.tls-o-matic.com:432
 
 Possible future cert tests
 --------------------------

@@ -43,6 +43,7 @@ killall:
 	make -C httpd/test15 kill
 	make -C httpd/test20 kill
 	make -C httpd/test21 kill
+	make -C httpd/test30 kill
 	@echo "✅  done!"
 
 web:
@@ -63,17 +64,24 @@ web:
 	make -C httpd/test15
 	make -C httpd/test20
 	make -C httpd/test21
+	make -C httpd/test30
 	@echo "✅  done!"
 
-certs: ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
-	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21
+certs: ca/ec/cacert.pem ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
+	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21 test30
 	@echo "✅  done!"
 
 ca:	ca/cacert.pem
 
+ca/ec/cacert.pem:
+	@echo "===> Creating elliptic curve CA"
+	bin/create-ec-ca.sh $(domain)
+	@echo "✅  done!"
+
 ca/cacert.pem:
 	@echo "===> Creating normal CA"
 	bin/createca.sh $(domain)
+	@echo "✅  done!"
 
 ca/bad/cacert.pem:
 	@echo "===> Creating evil CA"
@@ -248,6 +256,25 @@ test21:	ca/cacert.pem
 	bin/createcert.sh md5 test21.$(domain) test21.$(domain)
 	@echo "✅  done!"
 
+# --- Elliptic curve certs
+
+test30:
+	# Hybrid 1: An RSA certificate signed by an EC CA certificate
+	COMPANYNAME="Magical Mystery Tours (and security)" \
+	bin/createcert.sh ecrsacert test30.$(domain) test30.$(domain)
+	@echo "✅  done!"
+
+test31:
+	# Hybrid 2: EC certificate signed by RSA CA
+	COMPANYNAME="The Show Must Go On (and security) ☎️  " \
+	bin/createcert.sh eccert test31.$(domain) test31.$(domain)
+	@echo "✅  done!"
+
+#test32:
+	# Ec certificate signed by EC CA
+
+#test33:
+	# EC CA with strange curve
 
 
 alltests:	ca/cacert.pem	ca/bad/cacert.pem

@@ -105,6 +105,18 @@ Crypto and SSL/TLS protocol tests
 	Browsers does not accept cert or crypto.
 	- https://test21.tls-o-matic.com:421
 
+30.	The CA certificate in this test is using Elliptic Curve Key exchange instead of
+	RSA, as is the classical key pair technology used for certificates. 
+	The server use RSA key pair, so this is a hybrid certificate - a CA with
+	Elliptic curve and a server with RSA.
+	- https://test30.tls-o-matic.com:430
+
+31.	This is another hybrid certificate - a CA using RSA keys and a server using
+	elliptic curve technology.
+	- https://test31.tls-o-matic.com:431
+
+32.	This server and CA both use elliptic curve technology. 
+	- https://test32.tls-o-matic.com:432
 
 Possible future cert tests
 --------------------------

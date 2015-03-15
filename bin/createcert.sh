@@ -3,6 +3,7 @@ ERROR=1
 CACERT=ca/cacert.pem
 DOMAIN=tls-o-matic.com
 FILENAME=$2
+KEYTYPE=rsa
 
 if test -z "$COMPANYNAME"
 then
@@ -43,6 +44,8 @@ function help()
 	echo "    intercert  Create cert signed by intermediate cert"
 	echo "              $0 intercert certname servername"
 	echo "    inter3cert  Create cert signed by intermediate cert 3"
+	echo "    ecrsacert EC CA signing RSA cert - Default: SHA 256, subject alt name"
+	echo "    eccert    EC Cert - Default: SHA 256, subject alt name"
 	echo ""
 	exit
 }
@@ -91,6 +94,17 @@ if test $1 = bigcert; then
 fi
 if test $1 = cert; then
 	ERROR=0
+fi
+if test $1 = eccert; then
+	ERROR=0
+	CACERT=ca/ec/cacert.pem
+	OPTION="$OPTION  -name EC_CA_default"  
+	KEYTYPE=ec
+fi
+if test $1 = ecrsacert; then
+	ERROR=0
+	CACERT=ca/ec/cacert.pem
+	OPTION="$OPTION  -name EC_CA_default"  
 fi
 if test $1 = intercert; then
 	# Sign with intermediate cert
@@ -179,22 +193,47 @@ export COMMONNAME ALTNAME
 #	- utf8		Fields are default ASCII
 #	- verbose  Extra information
 
+
+
+
+if test $KEYTYPE = ec
+then
+echo "====> Creating Elliptic Curve keys"
+# Create EC key and request
+KEYFILE=ca/ec/private/$FILENAME.key
+openssl ecparam -out $KEYFILE -genkey \
+	$REQOPTION \
+	-name prime256v1 -noout
+# Copy the same file to the request file
+REQFILE=ca/ec/request/$FILENAME.req
+
+#openssl req -new -key $KEYFILE -out $REQFILE
 openssl req -new -nodes $REQOPTION \
-	-out "ca/request/$FILENAME.req" \
-	-keyout "ca/private/$FILENAME.key" \
+	-out "$REQFILE" \
+	-key "$KEYFILE" \
 	-config etc/openssl.cnf
+
+#
+else
+KEYFILE=ca/private/$FILENAME.key
+REQFILE=ca/request/$FILENAME.req
+openssl req -new -nodes $REQOPTION \
+	-out "$REQFILE" \
+	-keyout "$KEYFILE" \
+	-config etc/openssl.cnf
+fi
 
 #Sign request And create cert
 #echo Command: openssl ca  $OPTION \
 	#-cert $CACERT \
 	#-config etc/openssl.cnf \
 	#-out "ca/certs/$FILENAME.cert" \
-	#-infiles "ca/request/$FILENAME.req"
+	#-infiles "$REQFILE"
 openssl ca  $OPTION \
 	-cert $CACERT \
 	-config etc/openssl.cnf \
 	-out "ca/certs/$FILENAME.cert" \
-	-infiles "ca/request/$FILENAME.req"
+	-infiles "$REQFILE"
 
 # Move the files to the proper place
 if test -f ca/certs/$FILENAME.cert
@@ -202,7 +241,7 @@ then
 	mv ca/certs/$FILENAME.cert certs
 	rm ca/request/$FILENAME.req
 fi
-if test -f ca/private/$FILENAME.key
+if test -f $KEYFILE
 then
-	mv ca/private/$FILENAME.key certs
+	mv $KEYFILE certs
 fi

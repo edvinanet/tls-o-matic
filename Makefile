@@ -338,21 +338,27 @@ test17:  ca/cacert.pem
 	# Certificate with the server name in CN, and not in SAN. Should fail.
 	# Don't let your client be fooled by all the SAN's
 	COMPANYNAME="Sweet Soul Music Inc" \
-	bin/createcert.sh cert test17.$(domain) DNS:test99.$(domain),URI:sip:info@$(domain),URI:https://test12.$(domain):412,URI:edvina://räksmörgås42#⚠️
+	bin/createcert.sh cert test17.$(domain) test99.$(domain),URI:sip:info@$(domain),URI:https://test12.$(domain):412,URI:edvina://räksmörgås42#⚠️
 	@echo "✅  done!"
+
+curltest17: ca/cacert.pem
+	@echo "A certificate without the server name in SAN, but several SANs"
+	@echo "Note that CURL gives a strange error message. It does fail though."
+	@echo "Should fail  🚫  "
+	curl --cacert ca/cacert.pem https://test17.$(domain):417/
 
 test18:  ca/cacert.pem
 	# Certificate with wild card that should not work
 	#	test18.tls-o-matic.com
 	#	test18.anything.tls-o-matic.com
 	COMPANYNAME="Opposites Attract Joker Photography Inc" \
-	bin/createcert.sh cert t\*18.$(domain) DNS:test18.\*.$(domain),DNS:test\*.$(domain) test18.tls-o-matic.com
+	bin/createcert.sh cert t\*18.$(domain) test18.\*.$(domain),DNS:test\*.$(domain) test18.tls-o-matic.com
 	@echo "✅  done!"
 
 test19: ca/cacert.pem
 	# certificate that wants to match all
 	COMPANYNAME="Opposites Retract Bar & Barbecue Inc" \
-	bin/createcert.sh cert "Disregard" DNS:\*.$(domain),DNS:\*.example.com,DNS:\*.namn.se test19.tls-o-matic.com
+	bin/createcert.sh cert "Disregard" \*.$(domain),DNS:\*.example.com,DNS:\*.namn.se test19.tls-o-matic.com
 	@echo "✅  done!"
 
 test20:	ca/cacert.pem

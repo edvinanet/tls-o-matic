@@ -242,12 +242,11 @@ test15:	ca/cacert.pem certs/TLS-o-matic-intermediate-1.cert
 test16: ca/cacert.pem 
 	@# First domain with Swedish characters, second one with a cool smiley (UTF8 emoji)
 	@# RFC 6125 says that IDNA DNS names is represented in puny code
- 	@#
 	@# Domains encoded as following in DNS zone:
 	@#	xn--blbrsmjlk-x2aj4s.test16     IN      CNAME   test.tls-o-matic.com.
 	@#	xn--s28h.test16                 IN      CNAME   test.tls-o-matic.com.
 	COMPANYNAME="Smiley 😄  and cute animals 🐶  🐼  security LLC"  \
-	bin/createcert.sh cert test16.$(domain) test16.$(domain),DNS:xn--s28h.$(domain),DNS:xn--blbrsmjlk-x2aj4s.$(domain),URI:sip:info@xn--blbrsmjlk-x2aj4s.$(domain)
+	bin/createcert.sh cert test16.$(domain) test16.$(domain),DNS:xn--s28h.test16.$(domain),DNS:xn--blbrsmjlk-x2aj4s.test16.$(domain),URI:sip:info@xn--blbrsmjlk-x2aj4s.test16.$(domain)
 
 test20:	ca/cacert.pem
 	# Normal cert, with SAN for domain - the test is for crypto and TLS versions (Bettercrypto.org)

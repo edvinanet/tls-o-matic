@@ -115,7 +115,7 @@ Crypto and SSL/TLS protocol tests
 	elliptic curve technology.
 	- https://test31.tls-o-matic.com:431
 
-32.	This server and CA both use elliptic curve technology. 
+32.	This server and CA both use elliptic curve technology. Non-hybrid, pure elliptic curve
 	- https://test32.tls-o-matic.com:432
 
 Possible future cert tests

@@ -90,6 +90,11 @@ Certificate and CA Tests
 	- https://test15a.tls-o-matic.com:415
 	- https://test15b.tls-o-matic.com:415
 
+17.	Test of SAN. The server name is in the Common Name but not in the SAN.
+	If there is a list of SAN entries, a client should not check the common name.
+	This test should fail.
+
+	- https://test17.tls-o-matic.com:417
 
 
 

@@ -9,7 +9,6 @@ echo 1000 > serial
 touch index.txt
 export COMMONNAME="EC CA for $DOMAIN"
 export ALTNAME=email:info@$DOMAIN
-cd ca/ec
 # Create key
 openssl ecparam -out private/cakey.pem -genkey -name prime256v1
 # Create and sign request

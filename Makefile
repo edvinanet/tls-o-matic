@@ -58,6 +58,7 @@ killall:
 	make -C httpd/test21 kill
 	make -C httpd/test22 kill
 	make -C httpd/test30 kill
+	make -C httpd/test31 kill
 	@echo "✅  done!"
 
 web:
@@ -82,10 +83,12 @@ web:
 	make -C httpd/test21
 	make -C httpd/test22
 	make -C httpd/test30
+	make -C httpd/test31
 	@echo "✅  done!"
 
 certs:  ca/ec/cacert.pem ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
-	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21 test30
+	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21 test30 \
+	test31
 	@echo "✅  done!"
 
 #	We have three different CAs
@@ -100,8 +103,9 @@ ca:	ca/cacert.pem ca/ec/cacert.pem ca/bad/cacert.pem
 	@echo "✅  done!"
 
 certs: ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
-	test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test17 test20 test21 \
-	test22
+	test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test16 test17 \
+	test20 test21 \
+	test22 test30 test31
 	@echo "✅  done!"
 
 ca/ec/cacert.pem:
@@ -377,4 +381,8 @@ alltests:	ca/cacert.pem	ca/bad/cacert.pem
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test16.$(domain):416 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test17.$(domain):417 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test20.$(domain):420 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test21.$(domain):421 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test22.$(domain):422 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test30.$(domain):430 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
+	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test31.$(domain):431 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "✅  done! Check /tmp/testresult"

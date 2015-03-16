@@ -287,7 +287,7 @@ test11:	certs/TLS-o-matic-intermediate-3.cert
 curltest11: ca/cacert.pem
 	@echo "A server that offers an Intermediate CA certificate to bind the server cert to the CA"
 	@echo "Should succeed ✅ "
-	curl --cacert ca/cacert.pem https://test10.$(domain):411/
+	curl --cacert ca/cacert.pem https://test11.$(domain):411/
 
 test12: ca/cacert.pem
 	#Many SANs
@@ -297,18 +297,32 @@ test12: ca/cacert.pem
 	rm /tmp/sanlist.tmp
 	@echo "✅  done!"
 
+curltest12: ca/cacert.pem
+	@echo "A server that offers a huge list of Subject Alt Names"
+	@echo "Should succeed ✅ "
+	curl --cacert ca/cacert.pem https://test12.$(domain):412/
+
 test13:	ca/cacert.pem
 	# A key of 8192 bits
 	COMPANYNAME="The Large Super Key Company" \
 	bin/createcert.sh bigcert test13.$(domain)  test13.$(domain)
 	@echo "✅  done!"
 
+curltest13: ca/cacert.pem
+	@echo "A server that offers a huge key size"
+	@echo "Should succeed ✅ "
+	curl --cacert ca/cacert.pem https://test13.$(domain):413/
 
 test14:	ca/cacert.pem
 	# weird usage bits
 	COMPANYNAME="Ting Tagel Upside Down and Inside Out Non-Restful Services Inc" \
 	bin/createcert.sh weird test14.$(domain)  test14.$(domain)
 	@echo "✅  done!"
+
+curltest14: ca/cacert.pem
+	@echo "A server with a certificate not valid for web sites"
+	@echo "Connection should fail 🚫 "
+	curl --cacert ca/cacert.pem https://test14.$(domain):414/
 
 test15:	ca/cacert.pem certs/TLS-o-matic-intermediate-1.cert 
 	# TLS SNI tests - test15a, test15b, test15 (default server)

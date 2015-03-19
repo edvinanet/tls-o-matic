@@ -189,6 +189,8 @@ is a good idea - please let us know!
 
 https://github.com/edvinanet/tls-o-matic/issues
 
+- Don't use reserved ports - use high ports (@sindarina on Twitter)
+
 Installing
 ----------
 You can install this on your own system - check out in /usr/local/tls-o-matic

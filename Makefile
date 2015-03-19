@@ -86,11 +86,6 @@ web:
 	make -C httpd/test31
 	@echo "✅  done!"
 
-certs:  ca/ec/cacert.pem ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
-	test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test20 test21 test30 \
-	test31
-	@echo "✅  done!"
-
 #	We have three different CAs
 #	- Standard CA, RSA keys
 #		- with one subsidary Intermediate CA
@@ -101,6 +96,8 @@ certs:  ca/ec/cacert.pem ca/cacert.pem ca/bad/cacert.pem intermediate test1 test
 #
 ca:	ca/cacert.pem ca/ec/cacert.pem ca/bad/cacert.pem
 	@echo "✅  done!"
+
+.PHONY=certs
 
 certs: ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
 	test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test16 test17 \
@@ -310,7 +307,7 @@ test13:	ca/cacert.pem
 
 curltest13: ca/cacert.pem
 	@echo "A server that offers a huge key size"
-	@echo "Should succeed ✅ "
+	@echo "Will take time, but should succeed ✅ "
 	curl --cacert ca/cacert.pem https://test13.$(domain):413/
 
 test14:	ca/cacert.pem
@@ -337,6 +334,15 @@ test15:	ca/cacert.pem certs/TLS-o-matic-intermediate-1.cert
 	bin/createcert.sh intercert certs/TLS-o-matic-intermediate-1.cert test15b.$(domain)
 	@echo "   ☑️   done with cert 3/3!"
 	@echo "✅  done!"
+
+curltest15: ca/cacert.pem
+	@echo "Test of Server Name Indication"
+	@echo "Default server test15: Expected to succeed ✅ "
+	curl --cacert ca/cacert.pem https://test15.$(domain):415/
+	@echo "Test15a: Expected to succeed ✅ "
+	curl --cacert ca/cacert.pem https://test15a.$(domain):415/
+	@echo "Test15b: Expected to succeed ✅ "
+	curl --cacert ca/cacert.pem https://test15b.$(domain):415/
 
 test16: ca/cacert.pem 
 	@# First domain with Swedish characters, second one with a cool smiley (UTF8 emoji)

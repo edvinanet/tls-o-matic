@@ -152,7 +152,7 @@ Elliptic Curve certificate and key tests
 	- https://test31.tls-o-matic.com:431
 
 32.	This server and CA both use elliptic curve technology. Non-hybrid, pure elliptic curve
-	- Not active yet -
+	Marketing says that this is good for cell phones and small computers.
 	- https://test32.tls-o-matic.com:432
 
 

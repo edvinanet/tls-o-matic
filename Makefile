@@ -422,8 +422,11 @@ test31: ca/cacert.pem
 	bin/createcert.sh rsaeccert test31.$(domain) test31.$(domain)
 	@echo "✅  done!"
 
-#test32:
-	# Ec certificate signed by EC CA
+test32: ca/ec/cacert.pem
+	# EC certificate signed by EC CA
+	COMPANYNAME="Manager Management and Manageri inc" \
+	bin/createcert.sh eccert test32.$(domain) test32.$(domain)
+	@echo "✅  done!"
 
 #test33:
 	# EC CA with strange curve

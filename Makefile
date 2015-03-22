@@ -59,6 +59,7 @@ killall:
 	make -C httpd/test22 kill
 	make -C httpd/test30 kill
 	make -C httpd/test31 kill
+	make -C httpd/test32 kill
 	@echo "✅  done!"
 
 web:
@@ -84,6 +85,7 @@ web:
 	make -C httpd/test22
 	make -C httpd/test30
 	make -C httpd/test31
+	make -C httpd/test32
 	@echo "✅  done!"
 
 #	We have three different CAs

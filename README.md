@@ -19,6 +19,9 @@ here, then publish on the web site.
 
 The main site is at http://www.tls-o-matic.com
 
+Note: All tests (except the SNI test) are also available on high ports.
+Test 2 runs on port 402 and 60402. Documentation needs to be updated.
+
 About the scripts
 -----------------
 These scripts allow you to make certificates for test purposes. The
@@ -49,7 +52,10 @@ Certificate and CA Tests
 		Note: No SAN in the cert
 		CN test2.tls-o-matic.null
 
-3.	Wrong cert - bad SubjAltName
+3.	Test of SAN. The server name is in the Common Name but not in the SAN.
+	If there is a list of SAN entries, a client should not check the common name.
+	This test should fail.
+
 	- https://test3.tls-o-matic.com:403
 		SAN: https://test3.tls-o-matic.null
 
@@ -107,14 +113,21 @@ Certificate and CA Tests
 	Note: Github's URL parser doesn't parse URL's with international characters
 	as URL's and create clickable links. Bug.
 
-17.	Test of SAN. The server name is in the Common Name but not in the SAN.
-	If there is a list of SAN entries, a client should not check the common name.
+17.	Another Test of SAN (like test 3) . The server name is in the Common Name but not in the SAN.
+	If there is a list of SAN entries, a client should not check the common name. In this test
+	there are some confusing SAN entries.
 	This test should fail.
-
 	- https://test17.tls-o-matic.com:417
 
 18.	Test of wildcard rules.
-	- coming -
+	Wildcards can only be used for a whole part of a DNS name - not like a string wildcard.
+	It needs to be the first label, not a middle label like test.*.example.com
+	Reference: RFC 6125 Section 6.4.3
+	*.example.com is valid, and test*.example.com but not test.*.example.com
+	This cert has two SANs - test18.*.tls-o-matic.com, test*.tls-o-matic.com
+	- https://test18.test18.tls-o-matic.com:418 should work
+	- https://test18.valid.tls-o-matic.com:418 should NOT work
+	- https://testxx.tls-o-matic.com should work
 
 19.	Test of wildcard rules.
 	- coming -
@@ -175,6 +188,8 @@ Other TLS test ideas
 	- Site that only offers null crypto
 	- Build the three reference profiles from Mozilla
 	  https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_configurations
+	- Certificate with multiple CNs
+	  https://certificates.heanet.ie/node/17
 
 API tests (ideas)
 -----------------

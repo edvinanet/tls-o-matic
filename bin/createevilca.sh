@@ -6,7 +6,7 @@ export COMPANYNAME="The very trustworthy CA and used car sales inc"
 cd ca/bad
 mkdir -p certs private newcerts
 echo 1000 > serial
-touch index.txt
+: > index.txt
 export COMMONNAME=$DOMAIN
 export ALTNAME=DNS:$DOMAIN
 # Create keys and sign it with itself

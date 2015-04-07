@@ -33,7 +33,7 @@ all:
 
 clean:
 	rm -rf ca/cacert.pem ca/bad/cacert.pem ca/ec/cacert.pem ca/private/cacert.key ca/bad/private/cacert.key ca/ec/private/cacert.key
-	rm -rf certs/*
+	rm certs/*.cert certs/*.key
 	rm -rf ca/index.*
 
 killall:

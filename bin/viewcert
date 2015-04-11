@@ -1,0 +1,2 @@
+#!/bin/sh
+openssl x509 -noout -text -in certs/$1.tls-o-matic.com.cert

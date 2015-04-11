@@ -388,7 +388,7 @@ test18:  ca/cacert.pem
 test19: ca/cacert.pem
 	# certificate that wants to match all
 	COMPANYNAME="Opposites Retract Bar & Barbecue Inc" \
-	bin/createcert.sh cert "Disregard" \*.$(domain),DNS:\*.example.com,DNS:\*.namn.se test19.tls-o-matic.com
+	bin/createcert.sh cert "Disregard" \*\*.$(domain),DNS:\*.example.com,DNS:\*.namn.se,DNS:example.\* test19.tls-o-matic.com
 	@echo "✅  done!"
 
 test20:	ca/cacert.pem

@@ -4,7 +4,7 @@ TLS-O-MATIC.COM
 Automated self-tests of TLS. Set up for the #MoreCrypto /#MeraKrypto
 Meetup in Stockholm in March 2015.
 
-Tests 1-17 are tests of certificate validation.
+Tests 1-18 are tests of certificate validation.
 
 Test 20 is based on recommendations from bettercrypto.org on how
 to configure Apache HTTPD for a strong server. 
@@ -17,7 +17,7 @@ Test 30-32 are of elliptic curve certificates
 Note that this repository will always be ahead of the web site. I test stuff
 here, then publish on the web site.
 
-The main site is at http://www.tls-o-matic.com
+The main site is at https://www.tls-o-matic.com
 
 Note: All tests (except the SNI test) are also available on high ports.
 Test 2 runs on port 402 and 60402. Documentation needs to be updated.
@@ -121,9 +121,14 @@ Certificate and CA Tests
 
 18.	Test of wildcard rules.
 	Wildcards can only be used for a whole part of a DNS name - not like a string wildcard.
+	This cert has two wildcard SANs. Both are invalid.
+	
+	DNS:test18.\*.tls-o-matic.com, DNS:test\*.tls-o-matic.com
+	
 	It needs to be the first label, not a middle label like test.*.example.com
 	Reference: RFC 6125 Section 6.4.3
 	*.example.com is valid, and test*.example.com but not test.*.example.com
+
 	This cert has two SANs - test18.*.tls-o-matic.com, test*.tls-o-matic.com
 	- https://test18.test18.tls-o-matic.com:418 should work
 	- https://test18.valid.tls-o-matic.com:418 should NOT work

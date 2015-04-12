@@ -123,11 +123,11 @@ Certificate and CA Tests
 	Wildcards can only be used for a whole part of a DNS name - not like a string wildcard.
 	This cert has two wildcard SANs. Both are invalid.
 	
-	DNS:test18.\*.tls-o-matic.com, DNS:test\*.tls-o-matic.com
+	`DNS:test18.\*.tls-o-matic.com, DNS:test\*.tls-o-matic.com `
 	
 	It needs to be the first label, not a middle label like test.*.example.com
 	Reference: RFC 6125 Section 6.4.3
-	*.example.com is valid, and test*.example.com but not test.*.example.com
+	`*.example.com is valid, and test*.example.com but not test.*.example.com `
 
 	This cert has two SANs - test18.*.tls-o-matic.com, test*.tls-o-matic.com
 	- https://test18.test18.tls-o-matic.com:418 should work
@@ -220,6 +220,7 @@ if this works in all scripts yet.
 Credits
 -------
 - Olle E. Johansson created the tests and the scripts
+- Tomoyuki Sahara contributed fixes for running tls-o-matic standalone
 - Many participants at SIPit helped with the original SIP tests
 - Jakob Schlyter provided good feedback
 - D Spindel Ljungmark contributed new test ideas

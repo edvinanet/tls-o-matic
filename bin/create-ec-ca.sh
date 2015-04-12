@@ -12,6 +12,4 @@ export ALTNAME=email:info@$DOMAIN
 # Create key
 openssl ecparam -out private/cakey.pem -genkey -name prime256v1
 # Create and sign request
-openssl req -x509 -new -key private/cakey.pem -days 3650 -extensions v3_ca -out cacert.pem
-
-
+openssl req -x509 -new -batch -key private/cakey.pem -days 3650 -extensions v3_ca -out cacert.pem

@@ -217,7 +217,7 @@ openssl ecparam -out $KEYFILE -genkey \
 REQFILE=ca/ec/request/$FILENAME.req
 
 #openssl req -new -key $KEYFILE -out $REQFILE
-openssl req -new -nodes $REQOPTION \
+openssl req -new -batch -nodes $REQOPTION \
 	-out "$REQFILE" \
 	-key "$KEYFILE" \
 	-config etc/openssl.cnf
@@ -227,7 +227,7 @@ else
 # Keytype = RSA
 KEYFILE=ca/private/$FILENAME.key
 REQFILE=ca/request/$FILENAME.req
-openssl req -new -nodes $REQOPTION \
+openssl req -new -batch -nodes $REQOPTION \
 	-out "$REQFILE" \
 	-keyout "$KEYFILE" \
 	-config etc/openssl.cnf
@@ -239,7 +239,7 @@ fi
 	#-config etc/openssl.cnf \
 	#-out "ca/certs/$FILENAME.cert" \
 	#-infiles "$REQFILE"
-openssl ca  $OPTION \
+openssl ca -batch $OPTION \
 	-utf8 -cert $CACERT \
 	-config etc/openssl.cnf \
 	-out "certs/$FILENAME.cert" \

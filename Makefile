@@ -32,8 +32,8 @@ all:
 	@echo " test<x>  Certificates for test #1 - like \"make test1\" "
 
 clean:
-	rm -rf ca/cacert.pem ca/bad/cacert.pem ca/private/cacert.key ca/bad/private/cacert.key
-	rm -rf certs/*
+	rm -rf ca/cacert.pem ca/bad/cacert.pem ca/ec/cacert.pem ca/private/cacert.key ca/bad/private/cacert.key ca/ec/private/cacert.key
+	rm -f certs/*.cert certs/*.key
 	rm -rf ca/index.*
 
 killall:
@@ -96,15 +96,15 @@ web:
 #
 #	We also have five intermediate certificate authorities under the Standard CA, based on the one subsidary
 #
-ca:	ca/cacert.pem ca/ec/cacert.pem ca/bad/cacert.pem
+ca:	ca/cacert.pem ca/bad/cacert.pem ca/ec/cacert.pem
 	@echo "✅  done!"
 
 .PHONY=certs
 
-certs: ca/cacert.pem ca/bad/cacert.pem intermediate test1 test2 test3 test4 \
+certs: ca/cacert.pem ca/bad/cacert.pem ca/ec/cacert.pem intermediate test1 test2 test3 test4 \
 	test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test16 test17 \
 	test20 test21 \
-	test22 test30 test31
+	test22 test30 test31 test32
 	@echo "✅  done!"
 
 ca/ec/cacert.pem:
@@ -453,7 +453,7 @@ test40: certs/TLS-o-matic-intermediate-B.cert
         bin/createcert.sh intercert certs/TLS-o-matic-intermediate-B.cert test40.edvina.net
 	@echo "✅  done!"
 
-alltests:	ca/cacert.pem	ca/bad/cacert.pem
+alltests:	ca/cacert.pem ca/bad/cacert.pem ca/ec/cacert.pem
 	@echo `date` > /tmp/testresult
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test1.$(domain):443 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1
 	@echo "get / HTTP/1.0" |$(OPENSSL) s_client -connect test2.$(domain):402 -showcerts -state -CAfile ca/cacert.pem >> /tmp/testresult 2>&1

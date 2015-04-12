@@ -266,25 +266,24 @@ basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 
 [ v3_ca ]
-
-# Extensions for a typical CA
+# Extensions for the default CA in tls-o-matic.com
 
 # PKIX recommendation.
-
 subjectKeyIdentifier=hash
-
 authorityKeyIdentifier=keyid:always,issuer:always
 
 # This is what PKIX recommends but some broken software chokes on critical
 # extensions.
-#basicConstraints = critical,CA:true
+basicConstraints = critical,CA:true
 # So we do this instead.
-basicConstraints = CA:true
+#basicConstraints = critical,CA:true,pathlen:4
 
 # Key usage: this is typical for a CA certificate. However since it will
 # prevent it being used as an test self-signed certificate it is best
 # left out by default.
 # keyUsage = cRLSign, keyCertSign
+keyUsage  = critical,keyCertSign,cRLSign
+
 
 # Some might want this also
 # nsCertType = sslCA, emailCA
@@ -300,6 +299,7 @@ issuerAltName=issuer:copy
 # Where 'obj' is a standard or added object
 # You can even override a supported extension:
 # basicConstraints= critical, DER:30:03:01:01:FF
+
 
 [ v3_bad_ca ]
 
@@ -427,6 +427,44 @@ nsRevocationUrl	= https://www.tls-o-matic.com/we-never-revoke-ha-ha-ha/
 nsRenewalUrl = https://www.tls-o-matic.com/renew/
 nsCaPolicyUrl = https://www.tls-o-matic.com/policy/
 #nsSslServerName
+
+[intermediate_cert_constraints]
+# These extensions are added when 'ca' signs an intermediate certificate
+basicConstraints = critical,CA:true
+
+# This is typical in keyUsage for a client certificate.
+# keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+#keyUsage = digitalSignature
+
+#web site usage
+#extendedKeyUsage = keyCertSign
+
+# This will be displayed in Netscape's comment listbox.
+nsComment	= "TLS-O-Matic Intermediate Certificate 🔐  . This is one in a chain that you have to verify "
+
+# PKIX recommendations harmless if included in all certificates.
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+
+subjectAltName=email:ca@tls-o-matic.com
+
+# Copy subject details
+issuerAltName=issuer:copy
+
+nsCaRevocationUrl	= https://www.tls-o-matic.com/we-never-revoke-ha-ha-ha/ca/
+#nsBaseUrl
+nsRevocationUrl	= https://www.tls-o-matic.com/we-never-revoke-ha-ha-ha/
+nsRenewalUrl = https://www.tls-o-matic.com/renew/
+nsCaPolicyUrl = https://www.tls-o-matic.com/policy/
+#nsSslServerName
+nameConstraints         = @intermediate_name_constraints
+
+[intermediate_name_constraints]
+permitted;DNS.0=tls-o-matic.com
+permitted;DNS.1=tls-o-matic.edvina.net
+#	excluded;IP.0=0.0.0.0/0.0.0.0
+# excluded;IP.1=0:0:0:0:0:0:0:0/0:0:0:0:0:0:0:0
+
 
 # ------------------------ elliptic curve CA -------------------------------------
 [ EC_CA_default ]

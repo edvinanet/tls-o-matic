@@ -157,6 +157,17 @@ certs/TLS-o-matic-intermediate-5.cert: certs/TLS-o-matic-intermediate-4.cert
 	COMPANYNAME="Intermediate 5 $(domain)" \
 	bin/createcert.sh intermed certs/TLS-o-matic-intermediate-4.cert	TLS-o-matic-intermediate-5
 
+certs/TLS-o-matic-intermediate-A.cert: ca/cacert.pem
+	@echo " "
+	@echo "==> First intermediate cert in the second chain - intermediate A"
+	COMPANYNAME="Intermediate A $(domain)" \
+	bin/createcert.sh intermedc ca/cacert.pem TLS-o-matic-intermediate-A
+
+certs/TLS-o-matic-intermediate-B.cert: certs/TLS-o-matic-intermediate-A.cert
+	@echo " "
+	@echo "==> Second intermediate cert - B"
+	COMPANYNAME="Intermediate B $(domain)" \
+	bin/createcert.sh intermedc certs/TLS-o-matic-intermediate-A.cert	TLS-o-matic-intermediate-B
 
 test1:  ca/cacert.pem
 	@echo " "
@@ -432,6 +443,15 @@ test32: ca/ec/cacert.pem
 
 #test33:
 	# EC CA with strange curve
+
+# Test 40 - Intermediate cert with constraints
+test40: certs/TLS-o-matic-intermediate-B.cert
+	@echo " "
+	COMPANYNAME="Dare Devil 😈   Security きれい Coop" \
+        bin/createcert.sh intercert certs/TLS-o-matic-intermediate-B.cert test40.$(domain)
+	COMPANYNAME="Dare Devil 😈   Security きれい Coop" \
+        bin/createcert.sh intercert certs/TLS-o-matic-intermediate-B.cert test40.edvina.net
+	@echo "✅  done!"
 
 alltests:	ca/cacert.pem	ca/bad/cacert.pem
 	@echo `date` > /tmp/testresult

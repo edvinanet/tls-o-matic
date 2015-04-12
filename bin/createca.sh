@@ -1,5 +1,9 @@
 #!/bin/sh
+#
+# Ⓒ  Edvina AB, Sollentuna, Sweden 2015. 
+#
 # Create a CA
+#
 if test -z $1
 then
 DOMAIN=tls.example.com

@@ -41,6 +41,8 @@ function help()
 	echo "    weird     Weird certificate with strange usages"
 	echo "    intermed  Create intermediate cert. First arg is CA cert to sign with, second is name"
 	echo "              $0 intermed certname servername"
+	echo "    intermedc  Create intermediate cert with name constraints. First arg is CA cert to sign with, second is name"
+	echo "              $0 intermed certname servername"
 	echo "    intercert  Create cert signed by intermediate cert"
 	echo "              $0 intercert certname servername"
 	echo "    inter3cert   Create cert signed by intermediate cert 3"
@@ -146,9 +148,14 @@ if test $1 = sancert; then
 	ALTNAME="$3"
 	ERROR=0
 fi
-if test $1 = intermed; then
+if test $1 = intermed -o $1 = intermedc; then
 	# Create intermediate cert
-	OPTION="$OPTION -extensions intermediate_cert"
+	if test $1 = intermed; then
+		OPTION="$OPTION -extensions intermediate_cert"
+	else
+		OPTION="$OPTION -extensions intermediate_cert_constraints"
+	fi
+	
 	CACERT=$2
 	COMMONNAME=$3
 	FILENAME=$3

@@ -220,10 +220,10 @@ KEYFILE=ca/ec/private/$FILENAME.key
 openssl ecparam -out $KEYFILE -genkey \
 	$REQOPTION \
 	-name prime256v1 -noout
+
 # Copy the same file to the request file
 REQFILE=ca/ec/request/$FILENAME.req
 
-#openssl req -new -key $KEYFILE -out $REQFILE
 openssl req -new -batch -nodes $REQOPTION \
 	-out "$REQFILE" \
 	-key "$KEYFILE" \
